@@ -1,0 +1,2 @@
+main_text//I'm a 20-year-old student with a passion for coding. Currently, I'm pursuing a bachelor's degree in Software & Information Engineering at the Technical University of Vienna in Austria.
+programming//Since mid 2020 my main programming language of choice for hobby projects is Rust, but I have also experience in JavaScript, Python, Java and some other languages.
