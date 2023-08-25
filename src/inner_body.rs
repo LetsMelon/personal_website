@@ -78,8 +78,8 @@ pub fn build() -> Div {
     inner_body_div.add_element({
         let mut p = Paragraph::new();
 
-        // TODO span
-        p.add_element("I'm a AGE-year-old student with a passion for coding. Currently, I'm pursuing a bachelor's degree in Software & Information Engineering at the ");
+        // TODO add element `span` for the age
+        p.add_element("I'm a 20-year-old student with a passion for coding. Currently, I'm pursuing a bachelor's degree in Software & Information Engineering at the ");
 
         p.add_element({
             let mut h = HyperlinkBuilder::default()
@@ -108,7 +108,7 @@ pub fn build() -> Div {
             .src("/assets/ferris.svg")
             .alt("Rust logo")
             .build()
-            .unwrap(); i.set_id("rust-lang-logo"); i}
+            .unwrap(); i.set_id("rust-lang-icon"); i}
         );
         p.add_element(
             ", but I have also experience in JavaScript, Python, Java and some other programming languages.",

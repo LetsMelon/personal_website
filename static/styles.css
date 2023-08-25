@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "Space Mono";
+  src: url("../fonts/SpaceMono-Regular.ttf"),
+    url("../fonts/SpaceMono-Bold.ttf"),
+    url("../fonts/SpaceMono-BoldItalic.ttf"),
+    url("../fonts/SpaceMono-Italic.ttf");
+}
+
+body {
+  font-family: "Space Mono";
+  width: 100%;
+  min-width: 20rem;
+  max-width: 65rem;
+}
+
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar_item {
+  display: inline;
+  margin-right: 10px;
+}
+
+.separator {
+  border-top: 1.5px solid #000000;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+#rust-lang-icon {
+  height: 1em;
+  position: relative;
+  top: 0.125em;
+  left: 0.125em;
+}
