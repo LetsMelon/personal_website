@@ -221,7 +221,6 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "html-site-generator",
- "once_cell",
 ]
 
 [[package]]
