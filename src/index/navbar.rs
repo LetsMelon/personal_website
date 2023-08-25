@@ -1,8 +1,11 @@
 use html_site_generator::attributes::{HtmlAttributesBuilder, SetHtmlAttributes};
+use html_site_generator::html::div::Div;
 use html_site_generator::html::hyperlink::HyperlinkBuilder;
 use html_site_generator::html::list::{List, ListType};
 
-pub fn build() -> List {
+pub fn build() -> Div {
+    let mut d = Div::new();
+
     let mut l = List::new_with_ordering(ListType::Unordered);
     l.set_class("navbar");
 
@@ -40,5 +43,13 @@ pub fn build() -> List {
             .unwrap(),
     );
 
-    l
+    d.add_element(l);
+
+    d.add_element({
+        let mut d = Div::new();
+        d.set_class("separator");
+        d
+    });
+
+    d
 }
