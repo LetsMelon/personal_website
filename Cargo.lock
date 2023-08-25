@@ -145,7 +145,9 @@ checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
 
 [[package]]
 name = "html-site-generator"
-version = "0.0.1-alpha"
+version = "0.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b91db41ac04814176fd1caa14c3f0e5743c1e463488d9703baae3c0bc34011ca"
 dependencies = [
  "anyhow",
  "chrono",
@@ -155,7 +157,9 @@ dependencies = [
 
 [[package]]
 name = "html-site-generator-macro"
-version = "0.1.0"
+version = "0.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4689eb80411dbe13edfd63915e413cec51823e5bb81cb914d333d7d40141cc54"
 dependencies = [
  "quote",
  "syn 1.0.109",
