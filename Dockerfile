@@ -10,7 +10,7 @@ COPY ["Cargo.toml", "Cargo.lock", "./"]
 COPY ./src ./src
 
 RUN cargo b
-RUN mkdir ./dst && ./target/debug/melcher_io > ./dst/index.html
+RUN mkdir ./dst && ./target/debug/melcher_io
 
 FROM nginx:1.25-alpine
 
