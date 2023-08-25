@@ -6,16 +6,19 @@ RUN cargo new test_project && cd test_project && cargo add anyhow && cargo b && 
 
 WORKDIR /html-site-generator
 
-COPY . .
+COPY ["Cargo.toml", "Cargo.lock", "./"]
+COPY ./src ./src
 
-RUN mkdir ./dst && cargo b && ./target/debug/melcher_io > ./dest/index.html
+RUN cargo b
+RUN mkdir ./dst && ./target/debug/melcher_io > ./dst/index.html
 
 FROM nginx:1.25-alpine
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-
 COPY ./fonts /website/fonts
 COPY ./assets /website/assets
+COPY ./static /website/html
+
 COPY --from=BLOG_BUILDER /html-site-generator/dst /website/html
 
 EXPOSE 80
