@@ -25,7 +25,10 @@ pub fn build() -> Div {
 
         p.add_element("There should be some blog posts, but they are still under construction.");
         p.add_element(LineBreak::new());
-        p.add_element("Either you can wait until only the first blog is online, or you will just have to come at another time.");
+        p.add_element(
+            "Either you can wait until only the first blog is online, or you will just have to \
+             come at another time.",
+        );
 
         p
     });
