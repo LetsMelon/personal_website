@@ -4,6 +4,7 @@ use html_site_generator::html::document::Document;
 use crate::utils::{footer, header, navbar};
 
 mod inner_body;
+mod project;
 
 pub fn build() -> Document {
     let head = header::build();
