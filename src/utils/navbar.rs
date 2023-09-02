@@ -7,7 +7,7 @@ pub fn build() -> Div {
     let mut d = Div::new();
 
     let mut l = List::new_with_ordering(ListType::Unordered);
-    l.set_class("navbar");
+    l.add_class("navbar");
 
     l.add_element_with_attributes(
         {
@@ -21,7 +21,7 @@ pub fn build() -> Div {
             h
         },
         HtmlAttributesBuilder::default()
-            .class("navbar_item")
+            .class(vec!["navbar_item".to_string()])
             .build()
             .unwrap(),
     );
@@ -38,7 +38,7 @@ pub fn build() -> Div {
             h
         },
         HtmlAttributesBuilder::default()
-            .class("navbar_item")
+            .class(vec!["navbar_item".to_string()])
             .build()
             .unwrap(),
     );
@@ -47,7 +47,7 @@ pub fn build() -> Div {
 
     d.add_element({
         let mut d = Div::new();
-        d.set_class("separator");
+        d.add_class("separator");
         d
     });
 

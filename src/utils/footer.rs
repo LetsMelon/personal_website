@@ -11,7 +11,7 @@ pub fn build() -> Footer {
 
     f.add_element({
         let mut d = Div::new();
-        d.set_class("separator");
+        d.add_class("separator");
         d
     });
 
