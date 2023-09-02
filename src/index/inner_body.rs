@@ -103,8 +103,7 @@ pub fn build() -> Div {
                     let mut p = Paragraph::new();
 
                     p.add_element(
-                        "My team's high school graduation project, in collaboration with AGFA, \
-                         aimed to anonymize DICOM files.",
+                        "My team's high school graduation project, in collaboration with ",
                     );
 
                     p.add_element({
@@ -117,6 +116,8 @@ pub fn build() -> Div {
 
                         h
                     });
+
+                    p.add_element(", aimed to anonymize DICOM files.");
 
                     p
                 },
