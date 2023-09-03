@@ -7,4 +7,5 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.75"
-html-site-generator = { version = "0.0.1", path = "../html-site-generator" }
+#! html-site-generator = { version = "0.0.1", path = "../html-site-generator" }
+html-site-generator = { git = "https://github.com/letsmelon/html-site-generator", branch = "implement_css" }
