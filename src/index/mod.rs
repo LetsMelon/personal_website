@@ -3,7 +3,6 @@ use html_site_generator::html::document::Document;
 
 use crate::utils::{footer, header, navbar};
 
-mod button;
 mod inner_body;
 mod project;
 
