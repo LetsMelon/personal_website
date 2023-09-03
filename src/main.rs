@@ -1,27 +1,60 @@
 use std::fs::File;
+use std::io::Write;
 use std::path::PathBuf;
 use std::str::FromStr;
 
+use html_site_generator::html::document::Document;
 use html_site_generator::html::IntoHtmlNode;
+use html_site_generator::raw_writer::RawWriter;
 
 mod blog;
 mod index;
 pub(crate) mod utils;
 
 fn main() {
-    let pages = vec![
-        (index::build(), "index.html"),
-        (blog::build(), "blogs.html"),
+    let pages: Vec<(Box<dyn Fn() -> Document>, &str)> = vec![
+        (Box::new(|| index::build()), "index"),
+        (Box::new(|| blog::build()), "blogs"),
     ];
 
     // TODO make an env variable
     let dst = PathBuf::from_str("./dst").unwrap();
 
-    for (doc, name) in pages {
+    for (doc_fct, name) in pages {
+        let doc = doc_fct();
+
+        let mut writer = RawWriter::new();
+
+        doc.transform_into_html_node_with_css_and_js(&mut writer)
+            .unwrap();
+
+        let (html_writer, css_writer, js_writer) = writer.writers();
+
         let mut path = dst.clone();
-        path.push(name);
+        path.push(format!("{}.{}", name, "html"));
 
         let mut file = File::create(path).unwrap();
-        doc.transform_into_html_node(&mut file).unwrap();
+        file.write_all(html_writer.data()).unwrap();
+
+        let mut path = dst.clone();
+        path.push(format!("{}.{}", name, "css"));
+
+        let mut file = File::create(path).unwrap();
+        file.write_all(css_writer.data()).unwrap();
+
+        let mut path = dst.clone();
+        path.push(format!("{}.{}", name, "js"));
+
+        let mut file = File::create(path).unwrap();
+        file.write_all(js_writer.data()).unwrap();
     }
 }
+
+/*
+// TODO use this colors
+--text: #060605;
+--background: #edede9;
+--primary: #7a7ad6;
+--secondary: #d1d1f5;
+--accent: #7d2dcd;
+*/

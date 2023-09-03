@@ -126,8 +126,8 @@ pub fn build() -> Div {
             ),
         ];
 
-        for project in &projects {
-            l.add_element(project.clone());
+        for project in projects {
+            l.add_element(project);
         }
 
         l

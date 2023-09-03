@@ -8,12 +8,9 @@ use html_site_generator::html::paragraph::Paragraph;
 use html_site_generator::html::text::{TextElement, TextElementStyling};
 use html_site_generator::html::{IntoHtmlNode, IsParagraph};
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct Project {
-    title: String,
-    description: String,
-    link: Option<String>,
-    languages: Vec<String>,
+    inner: Div,
 }
 
 impl Project {
@@ -23,31 +20,20 @@ impl Project {
         link: Option<String>,
         languages: Vec<String>,
     ) -> Self {
-        Self {
-            title: title.into(),
-            description: description.to_raw(),
-            link,
-            languages,
-        }
-    }
-}
-
-impl IntoHtmlNode for Project {
-    fn transform_into_html_node(&self, buffer: &mut dyn Write) -> Result<()> {
         let mut d = Div::new();
 
         let mut p = Paragraph::new();
 
         p.add_element(TextElement::new_with_styling(
-            self.title.clone(),
+            title.into(),
             TextElementStyling::Bold,
         ));
 
         p.add_element(LineBreak::new());
-        p.add_element(format!("Languages: {}", self.languages.join(", ")));
+        p.add_element(format!("Languages: {}", languages.join(", ")));
 
         let mut raw_link_node = "Link: ".to_string();
-        if let Some(link) = &self.link {
+        if let Some(link) = link {
             let mut h = HyperlinkBuilder::default().href(link).build().unwrap();
 
             h.add_element("Github");
@@ -61,11 +47,29 @@ impl IntoHtmlNode for Project {
 
         p.add_element(LineBreak::new());
 
-        p.add_element(self.description.to_raw());
+        p.add_element(description.to_raw());
 
         d.add_element(p);
 
-        d.transform_into_html_node(buffer)?;
+        Self { inner: d }
+    }
+}
+
+impl IntoHtmlNode for Project {
+    fn transform_into_raw_html(&self, buffer: &mut dyn Write) -> Result<()> {
+        self.inner.transform_into_raw_html(buffer)?;
+
+        Ok(())
+    }
+
+    fn transform_into_raw_css(&self, buffer: &mut dyn Write) -> Result<()> {
+        self.inner.transform_into_raw_css(buffer)?;
+
+        Ok(())
+    }
+
+    fn transform_into_raw_js(&self, buffer: &mut dyn Write) -> Result<()> {
+        self.inner.transform_into_raw_js(buffer)?;
 
         Ok(())
     }
