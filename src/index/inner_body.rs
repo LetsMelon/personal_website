@@ -62,7 +62,11 @@ pub fn build() -> Div {
                 .alt("Rust logo")
                 .build()
                 .unwrap();
+
             i.set_id("rust-lang-icon");
+            // TODO not working? i.set_style("height: 1em; position: relative; top: 0.125em; left: 0.125em;");
+            // TODO use `crate::widget::Ferris`
+
             i
         });
         p.add_element(

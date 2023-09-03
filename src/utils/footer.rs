@@ -1,19 +1,15 @@
-use html_site_generator::attributes::SetHtmlAttributes;
 use html_site_generator::html::address::Address;
-use html_site_generator::html::div::Div;
 use html_site_generator::html::footer::Footer;
 use html_site_generator::html::hyperlink::HyperlinkBuilder;
 use html_site_generator::html::list::{List, ListType};
 use html_site_generator::html::paragraph::Paragraph;
 
+use crate::widget::seperator::Separator;
+
 pub fn build() -> Footer {
     let mut f = Footer::new();
 
-    f.add_element({
-        let mut d = Div::new();
-        d.add_class("separator");
-        d
-    });
+    f.add_element(Separator);
 
     f.add_element("Further links:");
 

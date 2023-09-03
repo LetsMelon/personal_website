@@ -3,7 +3,7 @@ use html_site_generator::html::link::{LinkBuilder, Relationship};
 use html_site_generator::html::meta::Meta;
 use html_site_generator::html::title::Title;
 
-pub fn build() -> Head {
+pub fn build(name: &str) -> Head {
     let mut h = Head::new();
 
     h.add_element({
@@ -28,10 +28,18 @@ pub fn build() -> Head {
         LinkBuilder::default()
             .rel(Relationship::Stylesheet)
             .media_type("text/css")
-            .href("styles.css")
+            .href(format!("{}.css", name))
             .build()
             .unwrap(),
     );
+    // h.add_element(
+    //     LinkBuilder::default()
+    //         .rel(Relationship::Stylesheet)
+    //         .media_type("text/css")
+    //         .href(format!("{}.js", name))
+    //         .build()
+    //         .unwrap(),
+    // );
 
     h
 }

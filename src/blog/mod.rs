@@ -6,7 +6,7 @@ use crate::utils::{footer, header, navbar};
 mod inner_body;
 
 pub fn build() -> Document {
-    let head = header::build();
+    let head = header::build("blogs");
 
     let mut body = Body::new();
 

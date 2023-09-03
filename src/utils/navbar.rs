@@ -3,6 +3,8 @@ use html_site_generator::html::div::Div;
 use html_site_generator::html::hyperlink::HyperlinkBuilder;
 use html_site_generator::html::list::{List, ListType};
 
+use crate::widget::seperator::Separator;
+
 pub fn build() -> Div {
     let mut d = Div::new();
 
@@ -45,11 +47,7 @@ pub fn build() -> Div {
 
     d.add_element(l);
 
-    d.add_element({
-        let mut d = Div::new();
-        d.add_class("separator");
-        d
-    });
+    d.add_element(Separator);
 
     d
 }

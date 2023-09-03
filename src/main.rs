@@ -3,18 +3,18 @@ use std::io::Write;
 use std::path::PathBuf;
 use std::str::FromStr;
 
-use html_site_generator::html::document::Document;
 use html_site_generator::html::IntoHtmlNode;
 use html_site_generator::raw_writer::RawWriter;
 
 mod blog;
 mod index;
 pub(crate) mod utils;
+pub(crate) mod widget;
 
 fn main() {
-    let pages: Vec<(Box<dyn Fn() -> Document>, &str)> = vec![
-        (Box::new(|| index::build()), "index"),
-        (Box::new(|| blog::build()), "blogs"),
+    let pages: Vec<(Box<dyn Fn() -> Box<dyn IntoHtmlNode>>, &str)> = vec![
+        (Box::new(|| Box::new(index::build())), "index"),
+        (Box::new(|| Box::new(blog::build())), "blogs"),
     ];
 
     // TODO make an env variable
