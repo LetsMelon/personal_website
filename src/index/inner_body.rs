@@ -10,7 +10,7 @@ use super::project::Project;
 
 pub fn build() -> Div {
     let mut inner_body_div = Div::new();
-    inner_body_div.set_id("inner_body");
+    inner_body_div.add_id("inner_body");
 
     inner_body_div.add_element({
         let mut p = Paragraph::new();
@@ -63,7 +63,7 @@ pub fn build() -> Div {
                 .build()
                 .unwrap();
 
-            i.set_id("rust-lang-icon");
+            i.add_id("rust-lang-icon");
             // TODO not working? i.set_style("height: 1em; position: relative; top: 0.125em; left: 0.125em;");
             // TODO use `crate::widget::Ferris`
 

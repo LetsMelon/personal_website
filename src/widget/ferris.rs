@@ -16,7 +16,7 @@ impl Ferris {
             .alt("Rust logo")
             .build()
             .unwrap();
-        i.set_id("rust-lang-icon");
+        i.add_id("rust-lang-icon");
 
         Ferris { inner: i }
     }

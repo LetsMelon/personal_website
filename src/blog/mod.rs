@@ -2,10 +2,11 @@ use html_site_generator::html::body::Body;
 use html_site_generator::html::document::Document;
 
 use crate::utils::{footer, header, navbar};
+use crate::widget::custom_document::CustomDocument;
 
 mod inner_body;
 
-pub fn build() -> Document {
+pub fn build() -> CustomDocument {
     let head = header::build("blogs");
 
     let mut body = Body::new();
@@ -14,5 +15,5 @@ pub fn build() -> Document {
     body.add_element(inner_body::build());
     body.add_element(footer::build());
 
-    Document::new(head, body)
+    CustomDocument::new(Document::new(head, body))
 }

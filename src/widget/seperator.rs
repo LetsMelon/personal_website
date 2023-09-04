@@ -24,13 +24,14 @@ impl IntoHtmlNode for Separator {
             writeln!(
                 buffer,
                 ".separator {{
-    border-top: 1.5px solid #000000;
+    border-top: 2px solid var(--text);
     margin-top: 5px;
     margin-bottom: 10px;
 }}"
             )?;
 
-            WROTE_CSS.store(true, Ordering::Relaxed);
+            // TODO this breaks because this function is called from `index` and `blog`, and it needs to be re-written in `blog`
+            // WROTE_CSS.store(true, Ordering::Relaxed);
         }
 
         Ok(())

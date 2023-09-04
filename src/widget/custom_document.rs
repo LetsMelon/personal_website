@@ -26,7 +26,7 @@ impl IntoHtmlNode for CustomDocument {
     --text: #060605;
     --background: #edede9;
     --primary: #7a7ad6;
-    --secondary: #d1d1f5;
+    --secondary: #3939B8;
     --accent: #7d2dcd;
 }}
 
@@ -41,6 +41,10 @@ impl IntoHtmlNode for CustomDocument {
 body {{
     background-color: var(--background);
     font-family: \"Space Mono\";
+    color: var(--text);
+    width: 100%;
+    min-width: 20rem;
+    max-width: 65rem;
 }}
 
 #rust-lang-icon {{
@@ -48,6 +52,33 @@ body {{
     position: relative;
     top: 0.125em;
     left: 0.125em;
+}}
+
+.navbar {{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}}
+  
+.navbar_item {{
+    display: inline;
+    margin-right: 10px;
+}}
+
+a {{
+    color: var(--primary);
+}}
+
+a:link {{
+    color: var(--primary);
+}}
+
+a:visited {{
+    color: var(--secondary);
+}}
+
+a:hover {{
+    color: var(--accent);
 }}
 "
         )?;

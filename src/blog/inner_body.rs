@@ -6,7 +6,7 @@ use html_site_generator::html::text::{TextElement, TextElementStyling};
 
 pub fn build() -> Div {
     let mut d = Div::new();
-    d.set_id("inner_body");
+    d.add_id("inner_body");
 
     d.add_element({
         let mut p = Paragraph::new();
