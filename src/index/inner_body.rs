@@ -1,3 +1,4 @@
+use chrono::{Datelike, NaiveDate};
 use html_site_generator::attributes::SetHtmlAttributes;
 use html_site_generator::html::div::Div;
 use html_site_generator::html::hyperlink::HyperlinkBuilder;
@@ -7,6 +8,21 @@ use html_site_generator::html::paragraph::Paragraph;
 use html_site_generator::html::text::{TextElement, TextElementStyling};
 
 use super::project::Project;
+
+const BIRTH_DAY: NaiveDate = NaiveDate::from_ymd_opt(2003, 6, 5).unwrap();
+
+/// Returns the age of the person in years
+/// Copied from https://gist.github.com/mre/ee7a59491e2aee46d767bd3b5372c5c2
+fn age<D: Datelike>(d: &D) -> i32 {
+    let today = chrono::Utc::now().date_naive();
+    let mut age = today.year() - d.year();
+
+    if today.ordinal() < d.ordinal() {
+        age -= 1;
+    }
+
+    age
+}
 
 pub fn build() -> Div {
     let mut inner_body_div = Div::new();
@@ -28,11 +44,11 @@ pub fn build() -> Div {
     inner_body_div.add_element({
         let mut p = Paragraph::new();
 
-        // TODO add element `span` for the age
-        p.add_element(
-            "I'm a 20-year-old student with a passion for coding. Currently, I'm pursuing a \
+        p.add_element(format!(
+            "I'm a {}-year-old student with a passion for coding. Currently, I'm pursuing a \
              bachelor's degree in Software & Information Engineering at the ",
-        );
+            age(&BIRTH_DAY)
+        ));
 
         p.add_element({
             let mut h = HyperlinkBuilder::default()
