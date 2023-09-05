@@ -1,7 +1,5 @@
 # syntax=docker/dockerfile:1.2
-FROM alpine:3.17 as BLOG_BUILDER
-
-RUN apk add rust cargo minify
+FROM rustlang/rust:nightly-slim as BLOG_BUILDER
 
 WORKDIR /html-site-generator
 
