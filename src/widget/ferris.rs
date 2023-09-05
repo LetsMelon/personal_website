@@ -2,7 +2,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 
 use html_site_generator::attributes::SetHtmlAttributes;
 use html_site_generator::html::image::{Image, ImageBuilder};
-use html_site_generator::html::IntoHtmlNode;
+use html_site_generator::html::{IntoHtmlNode, IntoHtmlNodeResult};
 
 #[derive(Debug)]
 pub struct Ferris {
@@ -23,13 +23,13 @@ impl Ferris {
 }
 
 impl IntoHtmlNode for Ferris {
-    fn transform_into_raw_html(&self, buffer: &mut dyn std::io::Write) -> anyhow::Result<()> {
+    fn transform_into_raw_html(&self, buffer: &mut dyn std::io::Write) -> IntoHtmlNodeResult<()> {
         self.inner.transform_into_raw_html(buffer)?;
 
         Ok(())
     }
 
-    fn transform_into_raw_css(&self, buffer: &mut dyn std::io::Write) -> anyhow::Result<()> {
+    fn transform_into_raw_css(&self, buffer: &mut dyn std::io::Write) -> IntoHtmlNodeResult<()> {
         self.inner.transform_into_raw_css(buffer)?;
 
         // only write the css once, this can also be created with an unique link
@@ -51,7 +51,7 @@ impl IntoHtmlNode for Ferris {
         Ok(())
     }
 
-    fn transform_into_raw_js(&self, buffer: &mut dyn std::io::Write) -> anyhow::Result<()> {
+    fn transform_into_raw_js(&self, buffer: &mut dyn std::io::Write) -> IntoHtmlNodeResult<()> {
         self.inner.transform_into_raw_js(buffer)?;
 
         Ok(())

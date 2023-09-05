@@ -1,12 +1,11 @@
 use std::io::Write;
 
-use anyhow::Result;
 use html_site_generator::html::div::Div;
 use html_site_generator::html::hyperlink::HyperlinkBuilder;
 use html_site_generator::html::line_break::LineBreak;
 use html_site_generator::html::paragraph::Paragraph;
 use html_site_generator::html::text::{TextElement, TextElementStyling};
-use html_site_generator::html::{IntoHtmlNode, IsParagraph};
+use html_site_generator::html::{IntoHtmlNode, IntoHtmlNodeResult, IsParagraph};
 
 #[derive(Debug)]
 pub struct Project {
@@ -56,19 +55,19 @@ impl Project {
 }
 
 impl IntoHtmlNode for Project {
-    fn transform_into_raw_html(&self, buffer: &mut dyn Write) -> Result<()> {
+    fn transform_into_raw_html(&self, buffer: &mut dyn Write) -> IntoHtmlNodeResult<()> {
         self.inner.transform_into_raw_html(buffer)?;
 
         Ok(())
     }
 
-    fn transform_into_raw_css(&self, buffer: &mut dyn Write) -> Result<()> {
+    fn transform_into_raw_css(&self, buffer: &mut dyn Write) -> IntoHtmlNodeResult<()> {
         self.inner.transform_into_raw_css(buffer)?;
 
         Ok(())
     }
 
-    fn transform_into_raw_js(&self, buffer: &mut dyn Write) -> Result<()> {
+    fn transform_into_raw_js(&self, buffer: &mut dyn Write) -> IntoHtmlNodeResult<()> {
         self.inner.transform_into_raw_js(buffer)?;
 
         Ok(())

@@ -1,5 +1,5 @@
 use html_site_generator::html::document::Document;
-use html_site_generator::html::IntoHtmlNode;
+use html_site_generator::html::{IntoHtmlNode, IntoHtmlNodeResult};
 
 #[derive(Debug)]
 pub struct CustomDocument {
@@ -13,13 +13,13 @@ impl CustomDocument {
 }
 
 impl IntoHtmlNode for CustomDocument {
-    fn transform_into_raw_html(&self, buffer: &mut dyn std::io::Write) -> anyhow::Result<()> {
+    fn transform_into_raw_html(&self, buffer: &mut dyn std::io::Write) -> IntoHtmlNodeResult<()> {
         self.inner.transform_into_raw_html(buffer)?;
 
         Ok(())
     }
 
-    fn transform_into_raw_css(&self, buffer: &mut dyn std::io::Write) -> anyhow::Result<()> {
+    fn transform_into_raw_css(&self, buffer: &mut dyn std::io::Write) -> IntoHtmlNodeResult<()> {
         writeln!(
             buffer,
             ":root {{
@@ -88,7 +88,7 @@ a:hover {{
         Ok(())
     }
 
-    fn transform_into_raw_js(&self, buffer: &mut dyn std::io::Write) -> anyhow::Result<()> {
+    fn transform_into_raw_js(&self, buffer: &mut dyn std::io::Write) -> IntoHtmlNodeResult<()> {
         self.inner.transform_into_raw_js(buffer)?;
 
         Ok(())

@@ -2,13 +2,13 @@ use std::sync::atomic::{AtomicBool, Ordering};
 
 use html_site_generator::attributes::SetHtmlAttributes;
 use html_site_generator::html::div::Div;
-use html_site_generator::html::IntoHtmlNode;
+use html_site_generator::html::{IntoHtmlNode, IntoHtmlNodeResult};
 
 #[derive(Debug)]
 pub struct Separator;
 
 impl IntoHtmlNode for Separator {
-    fn transform_into_raw_html(&self, buffer: &mut dyn std::io::Write) -> anyhow::Result<()> {
+    fn transform_into_raw_html(&self, buffer: &mut dyn std::io::Write) -> IntoHtmlNodeResult<()> {
         let mut d = Div::new();
         d.add_class("separator");
 
@@ -17,7 +17,7 @@ impl IntoHtmlNode for Separator {
         Ok(())
     }
 
-    fn transform_into_raw_css(&self, buffer: &mut dyn std::io::Write) -> anyhow::Result<()> {
+    fn transform_into_raw_css(&self, buffer: &mut dyn std::io::Write) -> IntoHtmlNodeResult<()> {
         static WROTE_CSS: AtomicBool = AtomicBool::new(false);
 
         if !WROTE_CSS.load(Ordering::Relaxed) {
@@ -37,7 +37,7 @@ impl IntoHtmlNode for Separator {
         Ok(())
     }
 
-    fn transform_into_raw_js(&self, _buffer: &mut dyn std::io::Write) -> anyhow::Result<()> {
+    fn transform_into_raw_js(&self, _buffer: &mut dyn std::io::Write) -> IntoHtmlNodeResult<()> {
         Ok(())
     }
 }
