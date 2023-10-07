@@ -21,7 +21,16 @@ pub fn build() -> Footer {
                 .href("https://github.com/LetsMelon")
                 .build()
                 .unwrap();
-            h.add_element("Github profile");
+            h.add_element("Github");
+            h
+        });
+
+        l.add_element({
+            let mut h = HyperlinkBuilder::default()
+                .href("https://www.linkedin.com/in/domenic-melcher/")
+                .build()
+                .unwrap();
+            h.add_element("LinkedIn");
             h
         });
 
