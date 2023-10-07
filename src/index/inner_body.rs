@@ -113,7 +113,7 @@ pub fn build() -> Div {
             ),
             Project::new(
                 "how_many_days_until",
-                "Small cli tool count the days between two days.",
+                "Small cli tool to count days between two given dates.",
                 Some("https://www.github.com/letsmelon/how_many_days_until".to_string()),
                 vec!["Rust".to_string()],
             ),
