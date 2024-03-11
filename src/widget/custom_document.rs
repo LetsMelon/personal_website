@@ -42,7 +42,6 @@ body {{
     background-color: var(--background);
     font-family: \"Space Mono\";
     color: var(--text);
-    width: 100%;
     min-width: 20rem;
     max-width: 65rem;
 }}
