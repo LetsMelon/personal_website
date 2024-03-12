@@ -1,0 +1,1 @@
+git push --delete https://github.com/LetsMelon/personal_website.git $(git ls-remote --tags https://github.com/LetsMelon/personal_website.git | awk '{print $2}' | grep -Ev "\^" | tr '\n' ' ')

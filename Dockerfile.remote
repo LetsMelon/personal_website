@@ -1,0 +1,33 @@
+# syntax=docker/dockerfile:1.2
+FROM ubuntu:jammy as DOWNLOADER
+ARG WEBSITE_TAG
+
+# ! don't need to upgrade, this stage is only to download the repo with the given tag 
+RUN apt update && apt install -y git
+
+RUN git clone --depth 1 --branch ${WEBSITE_TAG} https://github.com/LetsMelon/personal_website.git
+
+FROM rustlang/rust:nightly-slim as BLOG_BUILDER
+
+COPY --from=DOWNLOADER /personal_website /html-site-generator
+WORKDIR /html-site-generator
+
+RUN --mount=type=cache,target=/root/.cargo/git \
+    --mount=type=cache,target=/root/.cargo/registry \
+    --mount=type=cache,sharing=private,target=/html-site-generator/target \
+    cargo build --release --all && \
+    cp target/release/melcher_io /bin/melcher_io
+# cp target/release/github_webhook_handler /bin/github_webhook_handler
+
+RUN mkdir ./dst && /bin/melcher_io
+
+FROM nginx:1.25-alpine
+
+COPY --from=DOWNLOADER /personal_website/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=DOWNLOADER /personal_website/fonts /website/fonts
+COPY --from=DOWNLOADER /personal_website/assets /website/assets
+COPY --from=DOWNLOADER /personal_website/static /website/html
+
+COPY --from=BLOG_BUILDER /html-site-generator/dst /website/html
+
+EXPOSE 80

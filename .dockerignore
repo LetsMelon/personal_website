@@ -2,3 +2,5 @@ target/
 Dockerfile
 .idea/
 certs/
+dst/
+.github/

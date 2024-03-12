@@ -1,3 +1,6 @@
+[workspace]
+members = ["github_webhook_handler"]
+
 [package]
 name = "melcher_io"
 version = "0.1.0"

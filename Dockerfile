@@ -3,8 +3,7 @@ FROM rustlang/rust:nightly-slim as BLOG_BUILDER
 
 WORKDIR /html-site-generator
 
-COPY ["Cargo.toml", "Cargo.lock", "./"]
-COPY ./src ./src
+COPY . .
 
 RUN --mount=type=cache,target=/root/.cargo/git \
     --mount=type=cache,target=/root/.cargo/registry \
