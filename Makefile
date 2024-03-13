@@ -7,4 +7,4 @@ run:
 stop:
 	docker stop melcher_io_website
 
-restart: stop build run
+restart: build stop run
