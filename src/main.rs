@@ -1,53 +1,31 @@
 #![feature(const_option)]
 
-use std::fs::File;
-use std::io::Write;
 use std::path::PathBuf;
-use std::str::FromStr;
 
-use html_site_generator::html::IntoHtmlNode;
-use html_site_generator::raw_writer::RawWriter;
+use clap::{command, Parser, Subcommand};
 
 mod blog;
+mod command;
 mod index;
 pub(crate) mod utils;
 pub(crate) mod widget;
 
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    #[command(subcommand)]
+    command: Command,
+}
+
+#[derive(Debug, Subcommand)]
+enum Command {
+    Build { out_dir: PathBuf },
+}
+
 fn main() {
-    let pages: Vec<(Box<dyn Fn() -> Box<dyn IntoHtmlNode>>, &str)> = vec![
-        (Box::new(|| Box::new(index::build())), "index"),
-        (Box::new(|| Box::new(blog::build())), "blogs"),
-    ];
+    let args = Args::parse();
 
-    // TODO make an env variable
-    let dst = PathBuf::from_str("./dst").unwrap();
-
-    for (doc_fct, name) in pages {
-        let doc = doc_fct();
-
-        let mut writer = RawWriter::new();
-
-        doc.transform_into_html_node_with_css_and_js(&mut writer)
-            .unwrap();
-
-        let (html_writer, css_writer, js_writer) = writer.writers();
-
-        let mut path = dst.clone();
-        path.push(format!("{}.{}", name, "html"));
-
-        let mut file = File::create(path).unwrap();
-        file.write_all(html_writer.data()).unwrap();
-
-        let mut path = dst.clone();
-        path.push(format!("{}.{}", name, "css"));
-
-        let mut file = File::create(path).unwrap();
-        file.write_all(css_writer.data()).unwrap();
-
-        let mut path = dst.clone();
-        path.push(format!("{}.{}", name, "js"));
-
-        let mut file = File::create(path).unwrap();
-        file.write_all(js_writer.data()).unwrap();
+    match args.command {
+        Command::Build { out_dir } => crate::command::build::invoke(out_dir).unwrap(),
     }
 }
