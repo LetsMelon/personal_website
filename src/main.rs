@@ -51,12 +51,3 @@ fn main() {
         file.write_all(js_writer.data()).unwrap();
     }
 }
-
-/*
-// TODO use this colors
---text: #060605;
---background: #edede9;
---primary: #7a7ad6;
---secondary: #d1d1f5;
---accent: #7d2dcd;
-*/

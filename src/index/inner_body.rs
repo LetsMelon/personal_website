@@ -3,16 +3,18 @@ use html_site_generator::attributes::SetHtmlAttributes;
 use html_site_generator::html::div::Div;
 use html_site_generator::html::hyperlink::HyperlinkBuilder;
 use html_site_generator::html::image::ImageBuilder;
+use html_site_generator::html::line_break::LineBreak;
 use html_site_generator::html::list::{List, ListType};
 use html_site_generator::html::paragraph::Paragraph;
 use html_site_generator::html::text::{TextElement, TextElementStyling};
 
+use super::employment::Employment;
 use super::project::Project;
 
 const BIRTH_DAY: NaiveDate = NaiveDate::from_ymd_opt(2003, 6, 5).unwrap();
 
 /// Returns the age of the person in years
-/// Copied from https://gist.github.com/mre/ee7a59491e2aee46d767bd3b5372c5c2
+// Copied from https://gist.github.com/mre/ee7a59491e2aee46d767bd3b5372c5c2
 fn age<D: Datelike>(d: &D) -> i32 {
     let today = chrono::Utc::now().date_naive();
     let mut age = today.year() - d.year();
@@ -46,7 +48,7 @@ pub fn build() -> Div {
 
         p.add_element(format!(
             "I'm a {}-year-old student with a passion for coding. Currently, I'm pursuing a \
-             bachelor's degree in Software & Information Engineering at the ",
+             bachelor's degree in Computer Science at the ",
             age(&BIRTH_DAY)
         ));
 
@@ -61,7 +63,7 @@ pub fn build() -> Div {
             h
         });
 
-        p.add_element("in Austria.");
+        p.add_element(" in Austria.");
 
         p
     });
@@ -93,6 +95,36 @@ pub fn build() -> Div {
         p
     });
 
+    inner_body_div.add_element("My work history:");
+    inner_body_div.add_element({
+        let mut l = List::new_with_ordering(ListType::Unordered);
+
+        let employments = vec![
+            Employment::new(
+                "celix Solutions GmbH",
+                "https://www.celix.at/",
+                None::<&str>,
+                (2024, 7),
+                None,
+            ),
+            Employment::new(
+                "Runtastic GmbH",
+                "https://www.runtastic.com/",
+                Some("TODO"),
+                (2021, 7),
+                Some((2021, 8)),
+            ),
+        ];
+
+        for employment in employments {
+            l.add_element(employment);
+        }
+
+        l
+    });
+
+    inner_body_div.add_element(LineBreak::new());
+
     inner_body_div.add_element("Some of my projects are:");
 
     inner_body_div.add_element({
@@ -107,7 +139,7 @@ pub fn build() -> Div {
             ),
             Project::new(
                 "tsql",
-                "Custom scripting language that can be compiled down to sql.",
+                "Custom scripting language that can be transpiled to sql.",
                 Some("https://www.github.com/letsmelon/tsql".to_string()),
                 vec!["Rust".to_string()],
             ),
