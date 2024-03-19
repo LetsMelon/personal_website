@@ -11,7 +11,7 @@ RUN --mount=type=cache,target=/root/.cargo/git \
     cargo build --release && \
     cp target/release/melcher_io /bin/melcher_io
 
-RUN mkdir ./dst && /bin/melcher_io
+RUN mkdir ./dst && /bin/melcher_io build ./dst
 
 FROM nginx:1.25-alpine
 

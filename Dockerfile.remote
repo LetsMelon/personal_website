@@ -19,7 +19,7 @@ RUN --mount=type=cache,target=/root/.cargo/git \
     cp target/release/melcher_io /bin/melcher_io
 # cp target/release/github_webhook_handler /bin/github_webhook_handler
 
-RUN mkdir ./dst && /bin/melcher_io
+RUN mkdir ./dst && /bin/melcher_io build ./dst
 
 FROM nginx:1.25-alpine
 
