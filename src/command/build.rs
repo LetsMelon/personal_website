@@ -7,8 +7,14 @@ use html_site_generator::raw_writer::RawWriter;
 
 pub fn invoke(out_dir: PathBuf) -> anyhow::Result<()> {
     let pages: Vec<(Box<dyn Fn() -> Box<dyn IntoHtmlNode>>, &str)> = vec![
-        (Box::new(|| Box::new(crate::index::build())), "index"),
-        (Box::new(|| Box::new(crate::blog::build())), "blogs"),
+        (
+            Box::new(|| Box::new(crate::website::index::build())),
+            "index",
+        ),
+        (
+            Box::new(|| Box::new(crate::website::blog::build())),
+            "blogs",
+        ),
     ];
 
     for (doc_fct, name) in pages {

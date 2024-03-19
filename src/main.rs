@@ -4,11 +4,8 @@ use std::path::PathBuf;
 
 use clap::{command, Parser, Subcommand};
 
-mod blog;
 mod command;
-mod index;
-pub(crate) mod utils;
-pub(crate) mod widget;
+mod website;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]

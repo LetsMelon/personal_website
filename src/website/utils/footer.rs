@@ -4,7 +4,7 @@ use html_site_generator::html::hyperlink::HyperlinkBuilder;
 use html_site_generator::html::list::{List, ListType};
 use html_site_generator::html::paragraph::Paragraph;
 
-use crate::widget::seperator::Separator;
+use crate::website::widget::seperator::Separator;
 
 pub fn build() -> Footer {
     let mut f = Footer::new();

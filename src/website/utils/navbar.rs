@@ -3,7 +3,7 @@ use html_site_generator::html::div::Div;
 use html_site_generator::html::hyperlink::HyperlinkBuilder;
 use html_site_generator::html::list::{List, ListType};
 
-use crate::widget::seperator::Separator;
+use crate::website::widget::seperator::Separator;
 
 pub fn build() -> Div {
     let mut d = Div::new();
