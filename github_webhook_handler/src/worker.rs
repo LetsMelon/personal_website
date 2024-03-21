@@ -114,7 +114,7 @@ pub async fn start(
     container_config: ContainerConfig,
 ) -> anyhow::Result<()> {
     // TODO rename to 'docker_connection'
-    let docker_daemon = Docker::connect_with_socket_defaults()?;
+    let docker_daemon = Docker::connect_with_defaults()?;
 
     if docker_daemon.ping().await.is_err() {
         bail!("Couldn't ping to docker");
