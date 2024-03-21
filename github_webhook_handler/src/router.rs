@@ -10,7 +10,7 @@ pub fn router(secret_token: String, payload_sender: Sender<GitHubWebhook>) -> Ro
     Router::new()
         .route("/", get(|| async { "Hello, World!" }))
         .route(
-            "/webhook",
+            "/",
             post(|headers: HeaderMap, body: Bytes| async move {
                 tracing::info!("Received webhook");
 

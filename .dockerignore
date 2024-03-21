@@ -4,3 +4,4 @@ Dockerfile
 certs/
 dst/
 .github/
+**.env

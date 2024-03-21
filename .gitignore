@@ -4,3 +4,4 @@
 dst/
 .idea/
 certs/
+**.env
