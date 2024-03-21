@@ -171,7 +171,10 @@ pub async fn start(
 
             info!("Build new image");
 
-            debug!("Read Dockerfile from fs");
+            debug!(
+                "Read Dockerfile from fs at path {:?}",
+                config.dockerfile_path
+            );
             let dockerfile = tokio::fs::File::open(config.dockerfile_path.as_path()).await?;
 
             let mut buildargs = HashMap::new();
