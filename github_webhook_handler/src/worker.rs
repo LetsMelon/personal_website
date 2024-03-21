@@ -12,6 +12,7 @@ use bollard::secret::{HostConfig, PortBinding};
 use bollard::Docker;
 use bytes::Bytes;
 use futures_util::stream::StreamExt;
+use tokio::sync::mpsc::error::TryRecvError;
 use tokio::sync::mpsc::Receiver;
 use tokio::sync::Mutex;
 use tracing::*;
@@ -105,10 +106,10 @@ impl ContainerConfigBuilder {
     }
 }
 
-// TODO: implement a signal handler for ctr-c
-#[instrument(name = "worker", skip(receive_events, config))]
+#[instrument(name = "worker", skip(receive_events, receive_shutdown, config))]
 pub async fn start(
     mut receive_events: Receiver<GitHubWebhook>,
+    mut receive_shutdown: Receiver<()>,
     config: Arc<Mutex<WorkerConfig>>,
     container_config: ContainerConfig,
 ) -> anyhow::Result<()> {
@@ -308,6 +309,11 @@ pub async fn start(
             docker_daemon
                 .start_container::<String>(&config.container_name, None)
                 .await?;
+        }
+
+        match receive_shutdown.try_recv() {
+            Ok(_) | Err(TryRecvError::Disconnected) => break,
+            Err(TryRecvError::Empty) => continue,
         }
     }
 
