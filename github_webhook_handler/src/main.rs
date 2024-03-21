@@ -9,6 +9,7 @@ use tracing_subscriber::EnvFilter;
 
 use crate::worker::ContainerConfig;
 
+mod docker;
 mod github;
 mod router;
 mod verify;

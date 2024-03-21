@@ -1,43 +1,18 @@
 use std::collections::HashMap;
-use std::io::Write;
 use std::sync::Arc;
 
 use anyhow::{bail, Context};
-use bollard::auth::DockerCredentials;
-use bollard::container::{
-    Config, CreateContainerOptions, ListContainersOptions, StopContainerOptions,
-};
-use bollard::image::{BuildImageOptions, BuilderVersion};
+use bollard::container::{Config, CreateContainerOptions};
 use bollard::secret::{HostConfig, PortBinding};
 use bollard::Docker;
-use bytes::Bytes;
-use futures_util::stream::StreamExt;
 use tokio::sync::mpsc::error::TryRecvError;
 use tokio::sync::mpsc::Receiver;
 use tokio::sync::Mutex;
 use tracing::*;
 
+use crate::docker::{build_image, get_container_by_name, stop_container, ContainerState};
 use crate::github::{GitHubWebhook, RefType};
 use crate::WorkerConfig;
-
-fn compress_dockerfile(raw_dockerfile: &[u8]) -> anyhow::Result<Bytes> {
-    let mut header = tar::Header::new_gnu();
-    header.set_path("Dockerfile")?;
-    header.set_size(raw_dockerfile.len() as u64);
-    header.set_mode(0o755);
-    header.set_cksum();
-    let mut tar = tar::Builder::new(Vec::new());
-    tar.append(&header, raw_dockerfile)?;
-
-    let uncompressed = tar.into_inner()?;
-
-    let mut c = flate2::write::GzEncoder::new(Vec::new(), flate2::Compression::fast());
-    c.write_all(&uncompressed)?;
-
-    let compressed = c.finish()?;
-
-    Ok(compressed.into())
-}
 
 #[derive(Debug)]
 pub struct ContainerConfig {
@@ -121,7 +96,7 @@ pub async fn start(
 
     loop {
         info!("Waiting for new payload to come");
-        let payload: GitHubWebhook = receive_events
+        let payload = receive_events
             .recv()
             .await
             .context("Couldn't receive event from Receiver")?;
@@ -132,20 +107,10 @@ pub async fn start(
             info!("Received payload");
             debug!("payload = {:?}", payload);
 
-            let mut filters = HashMap::new();
-            filters.insert("name", vec![config.image_name.as_str()]);
-
-            let options = Some(ListContainersOptions {
-                all: true,
-                filters,
-                ..Default::default()
-            });
-
-            let containers = docker_connection.list_containers(options).await?;
-            debug!("got {} containers from docker", containers.len());
-
             // stop container if running
-            if let Some(container) = containers.first() {
+            if let Some(container) =
+                get_container_by_name(&docker_connection, &config.image_name).await?
+            {
                 if container.id.is_none() {
                     bail!("Found container's id is not allowed to be 'None'");
                 }
@@ -160,109 +125,72 @@ pub async fn start(
                     bail!("Found container's image is not allowed to be 'None'");
                 }
 
-                if let Some(state) = container.state.as_ref() {
-                    debug!("container state: {state}");
-
-                    match state.as_str() {
-                        "running" => {
-                            info!(
-                                "Stopping container {}",
-                                container
-                                    .id
-                                    .as_ref()
-                                    .context("Container id is not allowed to be 'None'")?
-                            );
-
-                            docker_connection
-                                .stop_container(
-                                    "melcher_io_website",
-                                    // ? wait for 10s before killing the container
-                                    Some(StopContainerOptions { t: 10 }),
-                                )
-                                .await?;
-                        }
-                        _ => info!(
-                            "Unknown container state {:?} for {}",
-                            state,
+                debug!("Container has name(s): {:?}", container.names);
+                let container_name = container
+                    .names
+                    .map(|names| names.get(0).cloned())
+                    .flatten()
+                    .with_context(|| {
+                        format!(
+                            "The container {:?} doesn't have a specific name",
                             container
                                 .id
                                 .as_ref()
-                                .context("Container id is not allowed to be 'None'")?
-                        ),
-                    }
+                                .unwrap_or(&"UNKNOWN_CONTAINER_ID".to_string())
+                        )
+                    })?;
+
+                if let Some(state) = container.state.as_ref() {
+                    debug!("container state: {state}");
+
+                    let container_id = container
+                        .id
+                        .as_ref()
+                        .context("Container id is not allowed to be 'None'")?;
+
+                    let container_state = ContainerState::from_str(&state);
+                    debug!("Container state: {:?}", container_state);
+
+                    match container_state {
+                        Ok(
+                            ContainerState::Running
+                            | ContainerState::Paused
+                            | ContainerState::Restarting,
+                        ) => stop_container(&docker_connection, &container_name, Some(10)).await?,
+                        Ok(_) => (),
+                        Err(unknown_state) => {
+                            bail!(
+                                "Unknown container state {:?} for {}",
+                                unknown_state,
+                                container_id
+                            )
+                        }
+                    };
                 }
             };
 
             info!("Build new image");
 
             debug!("Read Dockerfile from fs");
-            let dockerfile = tokio::fs::read_to_string(config.dockerfile_path.as_os_str()).await?;
-
-            debug!("Compress Dockerfile into tar");
-            let compressed = compress_dockerfile(dockerfile.as_bytes())?;
+            let dockerfile = tokio::fs::File::open(config.dockerfile_path.as_path()).await?;
 
             let mut buildargs = HashMap::new();
             buildargs.insert("WEBSITE_TAG", payload.ref_name.as_str());
 
             let tag = format!("{}:latest", config.image_name); // TODO maybe add the tag version
 
-            let build_image_options = BuildImageOptions {
-                t: tag.as_str(),
-                dockerfile: "Dockerfile",
+            build_image(
+                &docker_connection,
+                &config.docker_username,
+                &config.docker_password,
+                &tag,
+                &config.container_name,
                 buildargs,
-                version: BuilderVersion::BuilderBuildKit,
-                pull: false,
-                session: Some(config.container_name.clone()), // TODO not quit sure if that is the container or image name
-                // TODO labels: maybe add the label that the image has been build via github_webhook_handler
-                ..Default::default()
-            };
-
-            debug!("Send build-image-command to docker");
-
-            // TODO find out why a login is needed?
-            let credentials = {
-                // TODO create a macro to generate a empty HashMap or with a key+value
-                let mut map = HashMap::new();
-
-                map.insert(
-                    "registry-1.docker.io".to_string(),
-                    DockerCredentials {
-                        username: Some(config.docker_username.clone()),
-                        password: Some(config.docker_password.clone()),
-                        ..Default::default()
-                    },
-                );
-
-                map
-            };
-
-            let mut image_build_stream = docker_connection.build_image(
-                build_image_options,
-                Some(credentials),
-                Some(compressed),
-            );
-
-            debug!("Building container");
-            // TODO: refactor into separate function
-            while let Some(msg) = image_build_stream.next().await {
-                match msg {
-                    Ok(info) => {
-                        trace!("msg: {:?}", info);
-
-                        if let Some(build_error) = info.error {
-                            error!("Encountered error while building image: {build_error:?}");
-                            panic!("{:?}", build_error);
-                        }
-                    }
-                    Err(err) => {
-                        error!("Encountered error: {err:?}");
-                        panic!("{:?}", err);
-                    }
-                }
-            }
+                dockerfile,
+            )
+            .await?;
 
             info!("Create container");
-            // TODO remove hardcoded values
             let exposed_ports = Some({
                 let mut map = HashMap::new();
 
