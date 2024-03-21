@@ -2,18 +2,21 @@ version: '3.8'
 
 services:
   website:
+    container_name: melcher_io_website
     build: .
-    restart: always
-  
-  cloudflared:
-    image: ubunut_cloudflared:latest
-    restart: always
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
-    volumes:
-      - ./certs:/.cloudflared/cert.pem
     links:
-      - website
-    depends_on:
-      - website
-    entrypoint: /bin/bash
+      - webhook_handler
+    ports:
+      - 8080:80
+      - 80:80
+      - 443:80
+
+  webhook_handler:
+    build: ./github_webhook_handler
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - ./webhook.env
