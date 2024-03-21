@@ -113,10 +113,9 @@ pub async fn start(
     config: Arc<Mutex<WorkerConfig>>,
     container_config: ContainerConfig,
 ) -> anyhow::Result<()> {
-    // TODO rename to 'docker_connection'
-    let docker_daemon = Docker::connect_with_defaults()?;
+    let docker_connection = Docker::connect_with_defaults()?;
 
-    if docker_daemon.ping().await.is_err() {
+    if docker_connection.ping().await.is_err() {
         bail!("Couldn't ping to docker");
     }
 
@@ -142,7 +141,7 @@ pub async fn start(
                 ..Default::default()
             });
 
-            let containers = docker_daemon.list_containers(options).await?;
+            let containers = docker_connection.list_containers(options).await?;
             debug!("got {} containers from docker", containers.len());
 
             // stop container if running
@@ -174,7 +173,7 @@ pub async fn start(
                                     .context("Container id is not allowed to be 'None'")?
                             );
 
-                            docker_daemon
+                            docker_connection
                                 .stop_container(
                                     "melcher_io_website",
                                     // ? wait for 10s before killing the container
@@ -237,8 +236,11 @@ pub async fn start(
                 map
             };
 
-            let mut image_build_stream =
-                docker_daemon.build_image(build_image_options, Some(credentials), Some(compressed));
+            let mut image_build_stream = docker_connection.build_image(
+                build_image_options,
+                Some(credentials),
+                Some(compressed),
+            );
 
             debug!("Building container");
             // TODO: refactor into separate function
@@ -288,7 +290,7 @@ pub async fn start(
                 ..Default::default()
             });
 
-            let container = docker_daemon
+            let container = docker_connection
                 .create_container(
                     Some(CreateContainerOptions {
                         name: config.container_name.as_str(),
@@ -306,7 +308,7 @@ pub async fn start(
             info!("Created docker container with id {}", container.id);
 
             info!("Start container");
-            docker_daemon
+            docker_connection
                 .start_container::<String>(&config.container_name, None)
                 .await?;
         }
