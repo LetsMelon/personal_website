@@ -110,7 +110,11 @@ pub fn build() -> Div {
             Employment::new(
                 "Runtastic GmbH",
                 "https://www.runtastic.com/",
-                Some("TODO"),
+                Some(
+                    "As an intern backend engineer, I worked on the development of microservices \
+                     to meet the requirements of European data protection. This was programmed in \
+                     the Ruby programming language and the web framework \"Ruby on Rails\".",
+                ),
                 (2021, 7),
                 Some((2021, 8)),
             ),
