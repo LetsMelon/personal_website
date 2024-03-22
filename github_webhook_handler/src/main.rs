@@ -69,10 +69,6 @@ async fn main() {
         let container_config = ContainerConfig::builder()
             .port_mapping("0.0.0.0:8080", "80")
             .unwrap()
-            .port_mapping("0.0.0.0:80", "80")
-            .unwrap()
-            .port_mapping("0.0.0.0:443", "80")
-            .unwrap()
             .build();
 
         async move { worker::start(event_rx, shutdown_rx, worker_config, container_config).await }
