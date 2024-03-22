@@ -10,7 +10,9 @@ RUN --mount=type=cache,target=/root/.cargo/git \
     cargo build --release --package github_webhook_handler && \
     cp target/release/github_webhook_handler /bin/github_webhook_handler
 
-FROM debian:bookworm-slim
+FROM ubuntu:22.04
+
+RUN apt update && apt upgrade -y && apt install -y git curl
 
 EXPOSE 3000
 
