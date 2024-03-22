@@ -5,3 +5,5 @@ certs/
 dst/
 .github/
 **.env
+.git/
+**.DS_Store

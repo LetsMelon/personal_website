@@ -12,7 +12,9 @@ services:
       - 443:80
 
   webhook_handler:
-    build: ./github_webhook_handler
+    build:
+      context: .
+      dockerfile: ./github_webhook_handler/Dockerfile
     restart: always
     ports:
       - 3000:3000
