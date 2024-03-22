@@ -109,12 +109,11 @@ pub async fn start(
             debug!("payload = {:?}", payload);
 
             info!(
-                "Check if a container from the image {:?} is on the system",
-                &config.image_name
+                "Check if a container {:?} is on the system",
+                &config.container_name
             );
-            // TODO should this be `config.image_name`?
             if let Some(container) =
-                get_container_by_name(&docker_connection, &config.image_name).await?
+                get_container_by_name(&docker_connection, &config.container_name).await?
             {
                 if container.id.is_none() {
                     bail!("Found container's id is not allowed to be 'None'");
@@ -144,6 +143,7 @@ pub async fn start(
                                 .unwrap_or(&"UNKNOWN_CONTAINER_ID".to_string())
                         )
                     })?;
+                debug!("Container name is: {:?}", container_name);
 
                 if let Some(state) = container.state.as_ref() {
                     debug!("container state: {state}");
