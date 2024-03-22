@@ -87,7 +87,7 @@ pub async fn stop_container<S: Into<String> + Debug>(
         .await
 }
 
-#[instrument(skip(docker_connection, docker_password, dockerfile))]
+#[instrument(skip(docker_connection, docker_username, docker_password, dockerfile))]
 pub async fn build_image<
     S1: Into<String> + Debug,
     S2: Into<String> + Debug,

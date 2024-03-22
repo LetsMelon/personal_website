@@ -177,7 +177,6 @@ pub async fn start(
                     };
                 }
 
-                // TODO delete container if it is still on the system
                 debug!("Try to delete the container from the system");
                 match docker_connection
                     .remove_container(
