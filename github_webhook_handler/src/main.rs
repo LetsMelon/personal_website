@@ -16,6 +16,7 @@ mod verify;
 mod worker;
 
 pub struct WorkerConfig {
+    pub docker_registry: Option<String>,
     pub docker_username: String,
     pub docker_password: String,
     pub container_name: String,
@@ -30,13 +31,14 @@ async fn main() {
     tracing_subscriber::registry()
         .with(
             EnvFilter::try_from_default_env()
-                .unwrap_or("github_webhook_handler=debug,axum=info,bollard=debug".into()),
+                .unwrap_or("github_webhook_handler=debug,axum=info,bollard=info".into()),
         )
         .with(tracing_subscriber::fmt::layer())
         .try_init()
         .unwrap();
 
     let worker_config = Arc::new(Mutex::new(WorkerConfig {
+        docker_registry: std::env::var("DOCKER_REGISTRY").ok(),
         docker_username: std::env::var("DOCKER_USERNAME")
             .expect("Expect the env variable DOCKER_USERNAME"),
         docker_password: std::env::var("DOCKER_PASSWORD")

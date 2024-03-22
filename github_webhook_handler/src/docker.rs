@@ -94,6 +94,7 @@ pub async fn build_image<
     AsyncFile: AsyncReadExt,
 >(
     docker_connection: &Docker,
+    docker_registry: &Option<String>,
     docker_username: &str,
     docker_password: &str,
     tag: S1,
@@ -122,7 +123,9 @@ pub async fn build_image<
         let mut map = HashMap::new();
 
         map.insert(
-            "registry-1.docker.io".to_string(),
+            docker_registry
+                .clone()
+                .unwrap_or("registry-1.docker.io".to_string()), // default docker registry
             DockerCredentials {
                 username: Some(docker_username.to_string()),
                 password: Some(docker_password.to_string()),

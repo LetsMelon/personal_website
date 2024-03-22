@@ -95,6 +95,8 @@ pub async fn start(
         bail!("Couldn't ping to docker");
     }
 
+    info!("container_config: {:?}", container_config);
+
     loop {
         info!("Waiting for new payload to come");
         let payload = receive_events
@@ -256,6 +258,7 @@ pub async fn start(
 
             build_image(
                 &docker_connection,
+                &config.docker_registry,
                 &config.docker_username,
                 &config.docker_password,
                 &tag,
@@ -266,25 +269,36 @@ pub async fn start(
             .await?;
 
             info!("Creating container");
-            let exposed_ports = Some({
-                let mut map = HashMap::new();
-
-                for (_, container_port) in &container_config.port_mapping {
-                    map.insert(container_port.clone(), HashMap::new());
-                }
-
-                map
-            });
+            // ! "just a hint for client" source https://github.com/fussybeaver/bollard/issues/340#issuecomment-1742160476
+            // let exposed_ports = Some({
+            //     let mut map = HashMap::new();
+            //
+            //     for (_, container_port) in &container_config.port_mapping {
+            //         map.insert(container_port.clone(), HashMap::new());
+            //     }
+            //
+            //     map
+            // });
             let host_config = Some(HostConfig {
-                port_bindings: Some({
-                    let mut map = HashMap::new();
+                port_bindings: Some(container_config.port_mapping.iter().fold(
+                    HashMap::new(),
+                    |mut acc, (host, container_port)| {
+                        let entry = acc
+                            .entry(container_port.clone())
+                            .or_insert(Some(Vec::new()));
 
-                    for (host, container_port) in &container_config.port_mapping {
-                        map.insert(container_port.clone(), Some(vec![host.clone()]));
-                    }
+                        let host = host.clone();
 
-                    map
-                }),
+                        match entry {
+                            Some(port_bindings) => port_bindings.push(host),
+                            None => {
+                                entry.replace(vec![host]);
+                            }
+                        };
+
+                        acc
+                    },
+                )),
                 network_mode: Some("personal_website_internal_network".to_string()), // TODO remove hardcoded value
                 auto_remove: Some(true),
                 ..Default::default()
@@ -298,7 +312,7 @@ pub async fn start(
                     }),
                     Config {
                         image: Some(tag),
-                        exposed_ports,
+                        // exposed_ports,
                         host_config,
                         ..Default::default()
                     },
