@@ -270,15 +270,15 @@ pub async fn start(
 
             info!("Creating container");
             // ! "just a hint for client" source https://github.com/fussybeaver/bollard/issues/340#issuecomment-1742160476
-            // let exposed_ports = Some({
-            //     let mut map = HashMap::new();
-            //
-            //     for (_, container_port) in &container_config.port_mapping {
-            //         map.insert(container_port.clone(), HashMap::new());
-            //     }
-            //
-            //     map
-            // });
+            let exposed_ports = Some({
+                let mut map = HashMap::new();
+
+                for (_, port) in &container_config.port_mapping {
+                    map.insert(port.clone(), HashMap::new());
+                }
+
+                map
+            });
             let host_config = Some(HostConfig {
                 port_bindings: Some(container_config.port_mapping.iter().fold(
                     HashMap::new(),
@@ -312,7 +312,7 @@ pub async fn start(
                     }),
                     Config {
                         image: Some(tag),
-                        // exposed_ports,
+                        exposed_ports,
                         host_config,
                         ..Default::default()
                     },

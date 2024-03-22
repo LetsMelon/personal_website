@@ -66,11 +66,11 @@ async fn main() {
     let handle_worker = tokio::spawn({
         let worker_config = worker_config.clone();
         let container_config = ContainerConfig::builder()
-            .port_mapping("0.0.0.0:8080", "80")
+            .port_mapping("0.0.0.0:8080", "8080")
             .unwrap()
-            .port_mapping("0.0.0.0:80", "80")
+            .port_mapping("0.0.0.0:80", "8080")
             .unwrap()
-            .port_mapping("0.0.0.0:443", "80")
+            .port_mapping("0.0.0.0:443", "8080")
             .unwrap()
             .build();
 
