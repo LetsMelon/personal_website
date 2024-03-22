@@ -134,6 +134,7 @@ pub async fn start(
                     .names
                     .map(|names| names.get(0).cloned())
                     .flatten()
+                    .map(|item| item.trim_start_matches('/').to_string())
                     .with_context(|| {
                         format!(
                             "The container {:?} doesn't have a specific name",
@@ -161,7 +162,10 @@ pub async fn start(
                             ContainerState::Running
                             | ContainerState::Paused
                             | ContainerState::Restarting,
-                        ) => stop_container(&docker_connection, &container_name, Some(10)).await?,
+                        ) => {
+                            debug!("Stopping container");
+                            stop_container(&docker_connection, &container_name, Some(10)).await?
+                        }
                         Ok(_) => (),
                         Err(unknown_state) => {
                             bail!(
