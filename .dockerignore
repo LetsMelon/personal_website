@@ -1,5 +1,4 @@
 target/
-Dockerfile
 .idea/
 certs/
 dst/

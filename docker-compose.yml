@@ -3,7 +3,9 @@ version: '3.3'
 services:
   website:
     container_name: melcher_io_website
-    build: .
+    build:
+      context: .
+      dockerfile: ./config/Dockerfile
     networks:
       - internal_network
     ports:
@@ -26,7 +28,7 @@ services:
   reverse_proxy:
     build:
       context: .
-      dockerfile: ./Dockerfile.proxy
+      dockerfile: ./config/Dockerfile.proxy
     restart: always
     ports:
       - 80:80

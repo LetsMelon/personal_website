@@ -15,7 +15,7 @@ RUN mkdir ./dst && /bin/melcher_io build ./dst
 
 FROM nginx:1.25-alpine
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./fonts /website/fonts
 COPY ./assets /website/assets
 COPY ./static /website/html

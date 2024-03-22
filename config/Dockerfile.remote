@@ -22,7 +22,7 @@ RUN mkdir ./dst && /bin/melcher_io build ./dst
 
 FROM nginx:1.25-alpine
 
-COPY --from=BLOG_BUILDER /html-site-generator/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=BLOG_BUILDER /html-site-generator/config/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=BLOG_BUILDER /html-site-generator/fonts /website/fonts
 COPY --from=BLOG_BUILDER /html-site-generator/assets /website/assets
 COPY --from=BLOG_BUILDER /html-site-generator/dst /website/html
