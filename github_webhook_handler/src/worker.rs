@@ -2,7 +2,8 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 use anyhow::{bail, Context};
-use bollard::container::{Config, CreateContainerOptions};
+use bollard::container::{Config, CreateContainerOptions, RemoveContainerOptions};
+use bollard::errors::Error;
 use bollard::secret::{HostConfig, PortBinding};
 use bollard::Docker;
 use tokio::sync::mpsc::error::TryRecvError;
@@ -107,7 +108,11 @@ pub async fn start(
             info!("Received payload");
             debug!("payload = {:?}", payload);
 
-            // stop container if running
+            info!(
+                "Check if a container from the image {:?} is on the system",
+                &config.image_name
+            );
+            // TODO should this be `config.image_name`?
             if let Some(container) =
                 get_container_by_name(&docker_connection, &config.image_name).await?
             {
@@ -166,6 +171,70 @@ pub async fn start(
                             )
                         }
                     };
+                }
+
+                // TODO delete container if it is still on the system
+                debug!("Try to delete the container from the system");
+                match docker_connection
+                    .remove_container(
+                        &container_name,
+                        Some(RemoveContainerOptions {
+                            force: true,
+                            ..Default::default()
+                        }),
+                    )
+                    .await
+                {
+                    Ok(_) => debug!("deleted container successfully"),
+                    Err(err) => {
+                        error!(
+                            "encountered an error while deleting the container, err = {:?}",
+                            err
+                        );
+
+                        // TODO find out which error is being thrown if there is no container to delete
+                        match err {
+                            Error::NoHomePathError => todo!("Error::NoHomePathError"),
+                            Error::CertPathError { path } => todo!("Error::CertPathError"),
+                            Error::CertMultipleKeys { count, path } => {
+                                todo!("Error::CertMultipleKeys")
+                            }
+                            Error::CertParseError { path } => todo!("Error::CertParseError"),
+                            Error::NoNativeCertsError { err } => todo!("Error::NoNativeCertsError"),
+                            Error::DockerResponseServerError {
+                                status_code,
+                                message,
+                            } => todo!("Error::DockerResponseServerError"),
+                            Error::JsonDataError { message, column } => {
+                                todo!("Error::JsonDataError")
+                            }
+                            Error::APIVersionParseError {} => todo!("Error::APIVersionParseError"),
+                            Error::RequestTimeoutError => todo!("Error::RequestTimeoutError"),
+                            Error::DockerStreamError { error } => todo!("Error::DockerStreamError"),
+                            Error::DockerContainerWaitError { error, code } => {
+                                todo!("Error::DockerContainerWaitError")
+                            }
+                            Error::MissingSessionBuildkitError {} => {
+                                todo!("Error::MissingSessionBuildkitError")
+                            }
+                            Error::MissingVersionBuildkitError {} => {
+                                todo!("Error::MissingVersionBuildkitError")
+                            }
+                            Error::JsonSerdeError { err } => todo!("Error::JsonSerdeError"),
+                            Error::StrParseError { err } => todo!("Error::StrParseError"),
+                            Error::IOError { err } => todo!("Error::IOError"),
+                            Error::StrFmtError { err } => todo!("Error::StrFmtError"),
+                            Error::HttpClientError { err } => todo!("Error::HttpClientError"),
+                            Error::HyperResponseError { err } => todo!("Error::HyperResponseError"),
+                            Error::URLEncodedError { err } => todo!("Error::URLEncodedError"),
+                            Error::URLParseError { err } => todo!("Error::URLParseError"),
+                            Error::InvalidURIError { err } => todo!("Error::InvalidURIError"),
+                            Error::HyperLegacyError { err } => todo!("Error::HyperLegacyError"),
+                            Error::UnsupportedURISchemeError { uri } => {
+                                todo!("Error::UnsupportedURISchemeError")
+                            }
+                        }
+                    }
                 }
             };
 
