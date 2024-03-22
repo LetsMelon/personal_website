@@ -265,7 +265,7 @@ pub async fn start(
             )
             .await?;
 
-            info!("Create container");
+            info!("Creating container");
             let exposed_ports = Some({
                 let mut map = HashMap::new();
 
@@ -285,10 +285,7 @@ pub async fn start(
 
                     map
                 }),
-                // restart_policy: Some(RestartPolicy {
-                //     name: Some(RestartPolicyNameEnum::ON_FAILURE),
-                //     maximum_retry_count: Some(5),
-                // }),
+                network_mode: Some("personal_website_internal_network".to_string()), // TODO remove hardcoded value
                 auto_remove: Some(true),
                 ..Default::default()
             });
@@ -310,7 +307,7 @@ pub async fn start(
 
             info!("Created docker container with id {}", container.id);
 
-            info!("Start container");
+            info!("Starting container");
             docker_connection
                 .start_container::<String>(&config.container_name, None)
                 .await?;

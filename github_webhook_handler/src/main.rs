@@ -30,7 +30,7 @@ async fn main() {
     tracing_subscriber::registry()
         .with(
             EnvFilter::try_from_default_env()
-                .unwrap_or("github_webhook_handler=debug,axum=info".into()),
+                .unwrap_or("github_webhook_handler=debug,axum=info,bollard=debug".into()),
         )
         .with(tracing_subscriber::fmt::layer())
         .try_init()
