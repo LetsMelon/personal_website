@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::sync::Arc;
+use std::time::Duration;
 
 use anyhow::{bail, Context};
 use bollard::container::{Config, CreateContainerOptions, RemoveContainerOptions};
@@ -178,6 +179,9 @@ pub async fn start(
                         }
                     };
                 }
+
+                // sleep for 5s
+                tokio::time::sleep(Duration::from_secs(5)).await;
 
                 debug!("Try to delete the container from the system");
                 match docker_connection
