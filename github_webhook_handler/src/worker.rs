@@ -81,7 +81,7 @@ impl ContainerConfigBuilder {
     }
 }
 
-#[instrument(name = "worker", skip(receive_events, receive_shutdown, config))]
+#[instrument(name = "worker", skip_all)]
 pub async fn start(
     mut receive_events: Receiver<GitHubWebhook>,
     mut receive_shutdown: Receiver<()>,
