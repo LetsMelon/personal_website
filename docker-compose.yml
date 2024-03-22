@@ -4,12 +4,14 @@ services:
   website:
     container_name: melcher_io_website
     build: .
-    links:
-      - webhook_handler
+    networks:
+      - melcher_io_internal_network
     ports:
       - 8080:80
       - 80:80
       - 443:80
+    depends_on:
+      - webhook_handler
 
   webhook_handler:
     build:
@@ -18,7 +20,12 @@ services:
     restart: always
     ports:
       - 3000:3000
+    networks:
+      - melcher_io_internal_network
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     env_file:
       - ./webhook.env
+
+networks:
+  melcher_io_internal_network:
