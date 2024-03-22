@@ -5,3 +5,4 @@ dst/
 .idea/
 certs/
 **.env
+**.log
