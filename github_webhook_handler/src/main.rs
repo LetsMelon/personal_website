@@ -63,6 +63,7 @@ async fn main() {
     let (event_tx, event_rx) = mpsc::channel(0xFF);
 
     tracing::info!("Spawn worker");
+    // TODO remove the hard coded values
     let handle_worker = tokio::spawn({
         let worker_config = worker_config.clone();
         let container_config = ContainerConfig::builder()
