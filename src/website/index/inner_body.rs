@@ -100,13 +100,13 @@ pub fn build() -> Div {
         let mut l = List::new_with_ordering(ListType::Unordered);
 
         let employments = vec![
-            Employment::new(
-                "celix Solutions GmbH",
-                "https://www.celix.at/",
-                None::<&str>,
-                (2024, 7),
-                None,
-            ),
+            // Employment::new(
+            //     "celix Solutions GmbH",
+            //     "https://www.celix.at/",
+            //     None::<&str>,
+            //     (2024, 7),
+            //     None,
+            // ),
             Employment::new(
                 "Runtastic GmbH",
                 "https://www.runtastic.com/",
