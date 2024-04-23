@@ -13,4 +13,4 @@ anyhow = "1.0.81"
 chrono = "0.4.35"
 clap = { version = "4.5.7", features = ["derive"] }
 #! html-site-generator = { version = "0.0.1", path = "../html-site-generator" }
-html-site-generator = { git = "https://github.com/letsmelon/html-site-generator", rev = "6adbe8b7b8129fab220c68b84c089a16acff71ee" }
+html-site-generator = { git = "https://github.com/letsmelon/html-site-generator", rev = "b12e728d32bada592f6b9f0606cc064eaf2d43b9" }
