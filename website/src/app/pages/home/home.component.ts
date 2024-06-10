@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentsModule } from '../../components/components.module';
 import { CommonModule } from '@angular/common';
 import { ListItemComponent } from './list-item/list-item.component';
+import { DescriptionLinkPipe } from './description-link.pipe';
 
 export interface WorkHistory {
   name: string;
@@ -22,12 +23,18 @@ interface Project {
   languages: ProgrammingLanguage[];
   link?: string;
   description: string;
+  descriptionLink?: { text: string; href: string };
 }
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ComponentsModule, ListItemComponent],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    ListItemComponent,
+    DescriptionLinkPipe,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -70,6 +77,10 @@ export class HomeComponent {
       languages: [ProgrammingLanguage.javascript, ProgrammingLanguage.docker],
       description:
         "My team's high school graduation project, in collaboration with AGFA, aimed to anonymize DICOM files.",
+      descriptionLink: {
+        text: 'AGFA',
+        href: 'https://www.agfa.com/corporate/',
+      },
     },
   ];
 

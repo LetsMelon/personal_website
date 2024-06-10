@@ -42,7 +42,11 @@
       />
       <span *ngIf="project.link === undefined">not public</span>
       <br />
-      {{ project.description }}
+      <span
+        [innerHTML]="
+          project.description | descriptionLink : project.descriptionLink
+        "
+      ></span>
     </p>
   </li>
   }
