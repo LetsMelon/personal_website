@@ -32,8 +32,6 @@ interface Project {
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  private readonly birthday = new Date(2003, 5, 6);
-
   private readonly _workHistory: Array<WorkHistory> = [
     {
       name: 'Runtastic GmbH',
@@ -76,9 +74,10 @@ export class HomeComponent {
   ];
 
   get ageInYears(): string {
+    const birthday = new Date(2003, 5, 6);
     const currentDate = new Date();
 
-    const diff = Math.abs(this.birthday.getTime() - currentDate.getTime());
+    const diff = Math.abs(birthday.getTime() - currentDate.getTime());
     const dayDiff = diff / (1000 * 60 * 60 * 24);
     const yearDiff = dayDiff / 365.25;
 
