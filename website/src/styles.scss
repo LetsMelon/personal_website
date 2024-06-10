@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+    --text: #060605;
+    --background: #edede9;
+    --primary: #7a7ad6;
+    --secondary: #3939B8;
+    --accent: #7d2dcd;
+}
+
+@font-face {
+    font-family: "Space Mono";
+    src: url("/SpaceMono-Regular.ttf"),
+    url("/SpaceMono-Bold.ttf"),
+    url("/SpaceMono-BoldItalic.ttf"),
+    url("/SpaceMono-Italic.ttf");
+}
+
+body {
+    background-color: var(--background);
+    font-family: "Space Mono";
+    color: var(--text);
+    min-width: 20rem;
+    max-width: 65rem;
+}
