@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { WorkHistory } from '../home.component';
 import { CommonModule } from '@angular/common';
+import { ComponentsModule } from '../../../components/components.module';
 
 @Component({
   selector: 'app-list-item',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ComponentsModule],
   templateUrl: './list-item.component.html',
   styleUrl: './list-item.component.scss',
 })

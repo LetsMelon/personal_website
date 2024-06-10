@@ -1,10 +1,8 @@
 <li>
   <p>
-    <a
-      href="{{ workHistory.link }}"
-      rel="noopener noreferrer"
-      target="_blank"
-      >{{ workHistory.name }}</a
-    ><br />Duration: {{ durationText }}<br />{{ workHistory.description }}
+    <app-link
+      [href]="workHistory.link"
+      [name]="workHistory.name"
+    /><br />Duration: {{ durationText }}<br />{{ workHistory.description }}
   </p>
 </li>
