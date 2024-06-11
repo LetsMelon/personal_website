@@ -5,6 +5,7 @@ import { FerrisComponent } from './ferris/ferris.component';
 import { CommonModule } from '@angular/common';
 import { SeparatorComponent } from './separator/separator.component';
 import { FooterComponent } from './footer/footer.component';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { FooterComponent } from './footer/footer.component';
     SeparatorComponent,
     FooterComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   exports: [
     NavbarComponent,
     LinkComponent,
