@@ -23,3 +23,19 @@ body {
     min-width: 20rem;
     max-width: 65rem;
 }
+
+a {
+    color: var(--primary);
+}
+
+a:link {
+    color: var(--primary);
+}
+
+a:visited {
+    color: var(--secondary);
+}
+
+a:hover {
+    color: var(--accent);
+}
