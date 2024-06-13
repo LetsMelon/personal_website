@@ -43,8 +43,8 @@ export class HomeComponent {
     {
       name: 'Runtastic GmbH',
       link: 'https://www.runtastic.com/',
-      startDate: new Date(2021, 7),
-      endDate: new Date(2021, 8),
+      startDate: new Date(2021, 6),
+      endDate: new Date(2021, 7),
       description:
         'As an intern backend engineer, I worked on the development of microservices to meet the requirements of European data protection. This was programmed in the Ruby programming language and the web framework "Ruby on Rails".',
     },
