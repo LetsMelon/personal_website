@@ -1,18 +1,15 @@
 <nav>
   <ul class="navbar">
-    <li>
-      <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page"
-        >Home</a
-      >
-    </li>
+    @for (project of this.projects; track project.name) {
     <li>
       <a
-        routerLink="/blogs"
+        routerLink="{{ project.link }}"
         routerLinkActive="active"
         ariaCurrentWhenActive="page"
-        >Blogs 🚧</a
+        >{{ project.name }}</a
       >
     </li>
+    }
   </ul>
 </nav>
 
