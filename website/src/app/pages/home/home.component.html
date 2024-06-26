@@ -1,4 +1,4 @@
-<p>Hi, my name is <b>Domenic Melcher</b>!</p>
+<h3>Hi, my name is <b>Domenic Melcher</b>!</h3>
 
 <p>
   I'm a {{ ageInYears }}-year-old student with a passion for coding. Currently,
@@ -24,32 +24,6 @@
 </ul>
 
 <p>
-  Most of my projects are public on my
-  <app-link [name]="'GitHub'" [href]="'https://github.com/LetsMelon'" />
-  for everyone to see.<br />Some of my selected projects are:
+  You can see some of my projects at
+  <a routerLink="/projects" routerLinkActive="active">/projects</a>.
 </p>
-<ul>
-  @for (project of this.projects; track $index) {
-  <li>
-    <p>
-      <b>{{ project.name }}</b>
-      <br />
-      Languages: {{ project.languages.join(", ") }}
-      <br />
-      Link:
-      <app-link
-        *ngIf="project.link !== undefined"
-        [name]="'GitHub'"
-        [href]="project.link"
-      />
-      <span *ngIf="project.link === undefined">not public</span>
-      <br />
-      <span
-        [innerHTML]="
-          project.description | descriptionLink : project.descriptionLink
-        "
-      ></span>
-    </p>
-  </li>
-  }
-</ul>
