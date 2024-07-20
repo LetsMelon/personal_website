@@ -38,9 +38,16 @@ export class HomeComponent {
       description:
         'As an intern backend engineer, I worked on the development of microservices to meet the requirements of European data protection. This was programmed in the Ruby programming language and the web framework "Ruby on Rails".',
     },
+    {
+      name: 'celix Solutions GmbH',
+      link: 'https://www.celix.at//',
+      startDate: new Date(2024, 7),
+    },
   ];
   get workHistory(): Array<WorkHistory> {
-    return this._workHistory;
+    return this._workHistory
+      .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
+      .reverse();
   }
 
   get ageInYears(): string {
