@@ -21,8 +21,28 @@ const { title } = Astro.props;
   </body>
 </html>
 <style is:global>
+  @font-face {
+    font-family: "Space Mono";
+    src: url("/SpaceMono-Regular.ttf"), url("/SpaceMono-Bold.ttf"),
+      url("/SpaceMono-BoldItalic.ttf"), url("/SpaceMono-Italic.ttf");
+  }
+
   :root {
+    --text: #060605;
+    --background: #edede9;
+    --primary: #7a7ad6;
+    --secondary: #3939b8;
+    --accent: #7d2dcd;
   }
   html {
+  }
+
+  body {
+    background-color: var(--background);
+    font-family: "Space Mono";
+    color: var(--text);
+    width: 100%;
+    min-width: 20rem;
+    max-width: 65rem;
   }
 </style>
