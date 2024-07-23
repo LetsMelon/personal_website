@@ -1,14 +1,65 @@
 ---
+import AgeSpan from "../components/AgeSpan.astro";
+import RustLogo from "../components/RustLogo.astro";
+import WorkItem from "../components/WorkItem.astro";
 import Layout from "../layouts/Layout.astro";
+
+const workHistory = [
+  {
+    name: "Runtastic GmbH",
+    link: "https://www.runtastic.com/",
+    startDate: new Date(2021, 6),
+    endDate: new Date(2021, 7),
+    description:
+      'As an intern backend engineer, I worked on the development of microservices to meet the requirements of European data protection. This was programmed in the Ruby programming language and the web framework "Ruby on Rails".',
+  },
+  {
+    name: "celix Solutions GmbH",
+    link: "https://www.celix.at/",
+    startDate: new Date(2024, 7),
+  },
+];
 ---
 
 <Layout title="melcher.io">
   <main>
-    <h1>Hello World!</h1>
+    <h3>Hi, my name is <b>Domenic Melcher</b>!</h3>
+
+    <p>
+      I'm a <AgeSpan /> student with a passion for coding. Currently, I'm pursuing
+      a bachelor's degree in Computer Science at the Technical University of Vienna
+      in Austria.
+    </p>
+
+    <p>
+      Since mid 2020 my main programming language of choice for hobby projects
+      is Rust<RustLogo />, but I have also experience in JavaScript, Python,
+      Java and some other programming languages.
+    </p>
+
+    <p>My work history:</p>
+    <ul>
+      {
+        workHistory
+          .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
+          .reverse()
+          .map((item) => (
+            <WorkItem
+              name={item.name}
+              link={item.link}
+              startDate={item.startDate}
+              endDate={item.endDate}
+              description={item.description}
+            />
+          ))
+      }
+    </ul>
+
+    <!--
+      <p>
+        You can see some of my projects at
+        <a routerLink="/projects" routerLinkActive="active">/projects</a>.
+      </p>
+    -->
   </main>
 </Layout>
-
-<style>
-  main {
-  }
-</style>
