@@ -1,19 +1,12 @@
 FROM node:22 as BUILDER
-
 WORKDIR /website
-COPY ["package.json", "package-lock.json", "./"]
 
+COPY ["package.json", "package-lock.json", "./"]
 RUN npm ci
 
 COPY . .
+RUN npm run build
 
-# TODO: set '"prerender": false' in angular.json to 'true'
-RUN npm run build -- --verbose
-
-FROM node:22-alpine
-
-WORKDIR /usr/app
-COPY --from=BUILDER /website/dist/website ./
-
-EXPOSE 4000
-ENTRYPOINT [ "node", "server/server.mjs" ]
+FROM httpd:2.4 AS runtime
+COPY --from=BUILDER /website/dist /usr/local/apache2/htdocs/
+EXPOSE 80
