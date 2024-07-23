@@ -1,0 +1,70 @@
+---
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Navbar />
+
+    <slot />
+
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  @font-face {
+    font-family: "Space Mono";
+    src: url("/fonts/SpaceMono-Regular.ttf"), url("/fonts/SpaceMono-Bold.ttf"),
+      url("/fonts/SpaceMono-BoldItalic.ttf"), url("/fonts/SpaceMono-Italic.ttf");
+  }
+
+  :root {
+    --text: #060605;
+    --background: #edede9;
+    --primary: #7a7ad6;
+    --secondary: #3939b8;
+    --accent: #7d2dcd;
+  }
+
+  body {
+    background-color: var(--background);
+    font-family: "Space Mono";
+    color: var(--text);
+    width: 100%;
+    min-width: 20rem;
+    max-width: 65rem;
+  }
+
+  a {
+    color: var(--primary);
+  }
+
+  a:link {
+    color: var(--primary);
+  }
+
+  a:visited {
+    color: var(--secondary);
+  }
+
+  a:hover {
+    color: var(--accent);
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+import Separator from "./Separator.astro";
+
+const links = [
+  {
+    name: "Home",
+    link: "/",
+  },
+  {
+    name: "Projects",
+    link: "/projects",
+  },
+  {
+    name: "Blogs 🚧",
+    link: "/blogs",
+  },
+];
+---
+
+<>
+  <nav>
+    <ul class="navbar">
+      {
+        links.map((item) => (
+          <li>
+            <a href={item.link}>{item.name}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <Separator />
+</>
+
+<style>
+  .navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar li {
+    display: inline;
+    margin-right: 10px;
+  }
+</style>

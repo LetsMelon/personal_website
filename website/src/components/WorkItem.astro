@@ -1,0 +1,119 @@
+---
+import ExternalLink from "./ExternalLink.astro";
+
+interface Props {
+  name: string;
+  link: string;
+  startDate: Date;
+  endDate?: Date | undefined;
+  description?: string | undefined;
+}
+
+const { name, link, startDate, endDate, description } = Astro.props;
+
+const formatMonth = (date: Date) => {
+  return date.toLocaleString("en-US", { month: "long" });
+};
+
+const formatDate = (date: Date) => {
+  return `${formatMonth(date)} ${date.getFullYear()}`;
+};
+
+const durationText = () => {
+  if (startDate === undefined && endDate === undefined) {
+    return "/";
+  }
+
+  if (endDate === undefined) {
+    return `started ${formatDate(startDate)}`;
+  }
+
+  return `${formatDate(startDate)} - ${formatDate(endDate)}`;
+};
+---
+
+<work-item
+  data-startdate={startDate.toISOString()}
+  data-enddate={endDate ? endDate.toISOString() : undefined}
+>
+  <li>
+    <p>
+      <ExternalLink name={name} link={link} />
+      <br />
+      Duration:
+      <span>
+        {durationText()}
+      </span>
+      <br />
+      {description}
+    </p>
+  </li>
+</work-item>
+
+<script>
+  class WorkItem extends HTMLElement {
+    constructor() {
+      super();
+
+      const startDate = new Date(this.dataset.startdate!);
+      const endDate = this.dataset.enddate
+        ? new Date(this.dataset.enddate)
+        : undefined;
+
+      const durationSpan = this.querySelector("span");
+
+      durationSpan!.title = this.prettyDuration(startDate, endDate);
+    }
+
+    private prettyDuration = (startDate: Date, endDate: Date | undefined) => {
+      const formatMonths = (months: number) => {
+        const m = months.toFixed(0);
+
+        if (m == "0") {
+          return "";
+        }
+
+        if (m == "1") {
+          return `${m} month`;
+        }
+
+        return `${m} months`;
+      };
+
+      const formatYears = (years: number) => {
+        const y = years.toFixed(0);
+
+        if (y == "0") {
+          return "";
+        }
+
+        if (y == "1") {
+          return `${y} year`;
+        }
+
+        return `${y} years`;
+      };
+
+      var untilRaw = endDate;
+      if (!untilRaw) {
+        untilRaw = new Date();
+      }
+      const until = untilRaw!;
+
+      const diffTime = Math.abs(until.valueOf() - startDate.valueOf());
+
+      const diffMonths = diffTime / (1000 * 60 * 60 * 24 * 30) + 1;
+      const diffYears = Math.floor(diffMonths / 12);
+
+      if (diffYears == 0) {
+        return formatMonths(diffMonths);
+      } else {
+        const diffMonthsWithoutYears = diffMonths - 12 * diffYears;
+
+        return `${formatYears(diffYears)} years ${formatMonths(diffMonthsWithoutYears)}`;
+      }
+    };
+  }
+
+  customElements.define("work-item", WorkItem);
+</script>
