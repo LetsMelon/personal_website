@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.80"
-axum = "0.7.4"
+axum = "0.7.5"
 bollard = { version = "0.16.0", features = ["buildkit"] }
 bytes = "1.6.0"
 dotenv = "0.15.0"
