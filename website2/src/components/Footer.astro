@@ -1,0 +1,27 @@
+---
+import Separator from "./Separator.astro";
+
+const furtherLinks = [
+  { link: "https://github.com/LetsMelon", name: "GitHub" },
+  { link: "https://www.linkedin.com/in/domenic-melcher/", name: "LinkedIn" },
+];
+---
+
+<footer>
+  <Separator />
+
+  Further links:
+  <ul>
+    {
+      furtherLinks.map((item) => (
+        <li>
+          <a href={item.link} rel="noopener noreferrer" target="_blank">
+            {item.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <address>Created by Domenic Melcher.</address>
+</footer>
