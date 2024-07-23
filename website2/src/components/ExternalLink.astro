@@ -7,24 +7,4 @@ interface Props {
 const { link, name } = Astro.props;
 ---
 
-<a href={link} rel="noopener noreferrer" target="_blank">
-  {name}
-</a>
-
-<style>
-  a {
-    color: var(--primary);
-  }
-
-  a:link {
-    color: var(--primary);
-  }
-
-  a:visited {
-    color: var(--secondary);
-  }
-
-  a:hover {
-    color: var(--accent);
-  }
-</style>
+<a href={link} rel="noopener noreferrer" target="_blank">{name}</a>
