@@ -1,4 +1,5 @@
 ---
+import ExternalLink from "./ExternalLink.astro";
 import Separator from "./Separator.astro";
 
 const furtherLinks = [
@@ -15,9 +16,7 @@ const furtherLinks = [
     {
       furtherLinks.map((item) => (
         <li>
-          <a href={item.link} rel="noopener noreferrer" target="_blank">
-            {item.name}
-          </a>
+          <ExternalLink link={item.link} name={item.name} />
         </li>
       ))
     }

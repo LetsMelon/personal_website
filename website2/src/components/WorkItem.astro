@@ -1,4 +1,6 @@
 ---
+import ExternalLink from "./ExternalLink.astro";
+
 interface Props {
   name: string;
   link: string;
@@ -36,7 +38,7 @@ const durationText = () => {
 >
   <li>
     <p>
-      <a href={link} rel="noopener noreferrer" target="_blank">{name}</a>
+      <ExternalLink name={name} link={link} />
       <br />
       Duration:
       <span>
