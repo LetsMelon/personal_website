@@ -15,6 +15,10 @@ pub fn invoke(out_dir: PathBuf) -> anyhow::Result<()> {
             Box::new(|| Box::new(crate::website::blog::build())),
             "blogs",
         ),
+        (
+            Box::new(|| Box::new(crate::website::blog::ideas_around_wasm::build())),
+            "blogs_ideas_around_wasm",
+        ),
     ];
 
     for (doc_fct, name) in pages {

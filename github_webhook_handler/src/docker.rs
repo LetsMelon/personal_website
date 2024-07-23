@@ -112,14 +112,13 @@ pub async fn build_image<
         buildargs: build_args,
         version: BuilderVersion::BuilderBuildKit,
         pull: false,
-        session: Some(container_name.into()), // TODO not quit sure if that is the container or image name
+        session: Some(container_name.into()), // TODO what is that?
         // TODO labels: maybe add the label that the image has been build via github_webhook_handler
         ..Default::default()
     };
 
     // TODO find out why a login is needed?
     let credentials = {
-        // TODO create a macro to generate a empty HashMap or with a key+value
         let mut map = HashMap::new();
 
         map.insert(
@@ -148,7 +147,6 @@ pub async fn build_image<
     );
 
     debug!("Building image");
-    // TODO: refactor into separate function
     while let Some(msg) = image_build_stream.next().await {
         match msg {
             Ok(info) => {

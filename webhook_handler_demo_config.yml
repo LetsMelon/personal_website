@@ -1,0 +1,43 @@
+version: 1.0-beta
+
+expose: 3000
+
+health_check:
+  period: "*/5 * * * *" # crontab
+
+  steps:
+    - uses: docker/ping
+
+routes:
+  path: "/github"
+
+  steps:
+    - uses: middleware
+      with:
+        middleware:
+          github_accept_webhook:
+            uses: ./github_accept_webhook.wasm
+            with:
+              key: ${{ GITHUB_KEY }}
+
+    - uses: docker/stop_container
+      name: Stop the container
+      with:
+        container_name: my_website
+        delete: true
+
+    - uses: docker/build_image
+      name: Build the new image
+      with:
+        image_name: my_website_image
+        dockerfile: ./Dockerfile.auto
+
+    - uses: docker/start_image
+      name: Start new image as container
+      with:
+        container_name: my_website
+        networks:
+          - personal_website_internal_network
+        ports:
+          - 8080:80
+        auto_remove: true

@@ -26,7 +26,7 @@ pub struct WorkerConfig {
 
 #[tokio::main]
 async fn main() {
-    dotenv::dotenv().ok();
+    dotenv::dotenv().unwrap();
 
     tracing_subscriber::registry()
         .with(

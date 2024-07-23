@@ -33,5 +33,10 @@ pub fn build() -> Div {
         p
     });
 
+    // d.add_element(CodeBlock::new(
+    //     CodeBlockLanguage::Rust,
+    //     include_str!("../../main.rs"),
+    // ));
+
     d
 }

@@ -4,6 +4,7 @@ use html_site_generator::html::document::Document;
 use crate::website::utils::{footer, header, navbar};
 use crate::website::widget::custom_document::CustomDocument;
 
+pub mod ideas_around_wasm;
 mod inner_body;
 
 pub fn build() -> CustomDocument {
