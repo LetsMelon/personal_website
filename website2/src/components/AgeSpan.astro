@@ -1,0 +1,28 @@
+<age-span>
+  <span></span>
+</age-span>
+
+<script>
+  class AgeSpan extends HTMLElement {
+    constructor() {
+      super();
+
+      const displaySpan = this.querySelector("span");
+
+      displaySpan!.textContent = `${this.ageInYears()}-year-old`;
+    }
+
+    private ageInYears() {
+      const birthday = new Date(2003, 5, 6);
+      const currentDate = new Date();
+
+      const diff = Math.abs(birthday.getTime() - currentDate.getTime());
+      const dayDiff = diff / (1000 * 60 * 60 * 24);
+      const yearDiff = dayDiff / 365.25;
+
+      return Math.floor(yearDiff).toFixed(0).toString();
+    }
+  }
+
+  customElements.define("age-span", AgeSpan);
+</script>
