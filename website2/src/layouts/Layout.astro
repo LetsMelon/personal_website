@@ -1,6 +1,6 @@
 ---
+import Footer from "../components/Footer.astro";
 import Navbar from "../components/Navbar.astro";
-import Separator from "../components/Separator.astro";
 
 interface Props {
   title: string;
@@ -23,6 +23,8 @@ const { title } = Astro.props;
     <Navbar />
 
     <slot />
+
+    <Footer />
   </body>
 </html>
 
