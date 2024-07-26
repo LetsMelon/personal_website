@@ -1,0 +1,53 @@
+---
+import ExternalLink from "./ExternalLink.astro";
+
+export enum ProgrammingLanguage {
+  rust = "Rust",
+  javascript = "JavaScript",
+  docker = "Docker",
+}
+
+export interface IProject {
+  name: string;
+  languages: ProgrammingLanguage[];
+  link?: string;
+  description: string;
+  descriptionLink?: { text: string; href: string }[];
+}
+
+interface Props {
+  project: IProject;
+}
+
+const {
+  project: { name, languages, link, description, descriptionLink },
+} = Astro.props;
+
+let descriptionWithLinks = description;
+descriptionLink?.forEach((item) => {
+  // TODO use external link component
+  descriptionWithLinks = descriptionWithLinks.replaceAll(
+    item.text,
+    `<a href=${item.href} rel="noopener noreferrer" target="_blank">${item.text}</a>`
+  );
+});
+---
+
+<li>
+  <p>
+    <b>{name}</b>
+    <br />
+    Languages: {languages.join(", ")}
+    <br />
+    Link:
+    {
+      link ? (
+        <ExternalLink name="GitHub" link={link} />
+      ) : (
+        <span>not public</span>
+      )
+    }
+    <br />
+    <Fragment set:html={descriptionWithLinks} />
+  </p>
+</li>
