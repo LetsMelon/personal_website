@@ -1,26 +1,33 @@
 ---
 import ExternalLink from "./ExternalLink.astro";
 import Separator from "./Separator.astro";
-
-const furtherLinks = [
-  { link: "https://github.com/LetsMelon", name: "GitHub" },
-  { link: "https://www.linkedin.com/in/domenic-melcher/", name: "LinkedIn" },
-];
 ---
 
 <footer>
   <Separator />
 
-  Further links:
-  <ul>
-    {
-      furtherLinks.map((item) => (
-        <li>
-          <ExternalLink link={item.link} name={item.name} />
-        </li>
-      ))
-    }
-  </ul>
+  <div>
+    <h3>Contact Me</h3>
 
-  <address>Created by Domenic Melcher.</address>
+    <p>
+      I am open to new job opportunities and collaborations. If you have a
+      project or a job opening that you think I would be a good fit for,
+      especially in Rust programming, please feel free to reach out to me. You
+      can contact me via: <ExternalLink
+        link="mailto:domi.m@outlook.com"
+        name="email"
+      />, <ExternalLink link="https://github.com/LetsMelon" name="GitHub" /> or
+      <ExternalLink
+        link="https://www.linkedin.com/in/domenic-melcher/"
+        name="LinkedIn"
+      />.
+    </p>
+  </div>
+
+  <address>
+    Created by Domenic Melcher with the help of <ExternalLink
+      link="https://astro.build/"
+      name="Astro"
+    />.
+  </address>
 </footer>
