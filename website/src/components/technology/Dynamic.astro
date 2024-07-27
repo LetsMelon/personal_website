@@ -1,0 +1,42 @@
+---
+import Docker from "./Docker.astro";
+import Groovy from "./Groovy.astro";
+import Java from "./Java.astro";
+import JavaScript from "./JavaScript.astro";
+import Python from "./Python.astro";
+import Rust from "./Rust.astro";
+
+export enum Technology {
+  Docker = "Docker",
+  Groovy = "Groovy",
+  Java = "Java",
+  JavaScript = "JavaScript",
+  Python = "Python",
+  Rust = "Rust",
+}
+
+interface Props {
+  technology: Technology | string;
+}
+
+const { technology } = Astro.props;
+
+function isTechnology(value: any): value is Technology {
+  return Object.values(Technology).includes(value);
+}
+---
+
+{
+  isTechnology(technology) ? (
+    <Fragment>
+      {technology === Technology.Docker && <Docker />}
+      {technology === Technology.Groovy && <Groovy />}
+      {technology === Technology.Java && <Java />}
+      {technology === Technology.JavaScript && <JavaScript />}
+      {technology === Technology.Python && <Python />}
+      {technology === Technology.Rust && <Rust />}
+    </Fragment>
+  ) : (
+    <span>{technology}</span>
+  )
+}
