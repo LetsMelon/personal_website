@@ -7,6 +7,11 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM httpd:2.4 AS runtime
-COPY --from=BUILDER /website/dist /usr/local/apache2/htdocs/
+# nginx with brotli
+FROM fholzer/nginx-brotli:v1.23.4 
+
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+COPY --from=BUILDER /website/dist /usr/share/nginx/html
+
 EXPOSE 80
