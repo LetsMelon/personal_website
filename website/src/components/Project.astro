@@ -1,6 +1,7 @@
 ---
 import ExternalLink from "./ExternalLink.astro";
 import type { Technology } from "./technology/Dynamic.astro";
+import Dynamic from "./technology/Dynamic.astro";
 
 export interface IProject {
   name: string;
@@ -32,7 +33,16 @@ descriptionLink?.forEach((item) => {
   <p>
     <b>{name}</b>
     <br />
-    Languages: {languages.join(", ")}
+    {languages.length <= 1 ? "Technology" : "Technologies"} used: {
+      languages.map((item, index) => (
+        <>
+          <Dynamic technology={item} />
+          {index < languages.length - 1 && (
+            <span class="technology-seperator">,</span>
+          )}
+        </>
+      ))
+    }
     <br />
     Link:
     {
@@ -46,3 +56,9 @@ descriptionLink?.forEach((item) => {
     <Fragment set:html={descriptionWithLinks} />
   </p>
 </li>
+
+<style>
+  .technology-seperator {
+    margin-right: -0.4em;
+  }
+</style>
