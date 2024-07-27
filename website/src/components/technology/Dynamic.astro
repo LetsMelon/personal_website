@@ -6,6 +6,7 @@ import JavaScript from "./JavaScript.astro";
 import PostgreSQL from "./PostgreSQL.astro";
 import Python from "./Python.astro";
 import Redis from "./Redis.astro";
+import Ruby from "./Ruby.astro";
 import Rust from "./Rust.astro";
 
 export enum Technology {
@@ -16,6 +17,7 @@ export enum Technology {
   PostgreSQL,
   Python,
   Redis,
+  Ruby,
   Rust,
 }
 
@@ -40,6 +42,7 @@ function isTechnology(value: any): value is Technology {
       {technology === Technology.PostgreSQL && <PostgreSQL />}
       {technology === Technology.Python && <Python />}
       {technology === Technology.Redis && <Redis />}
+      {technology === Technology.Ruby && <Ruby />}
       {technology === Technology.Rust && <Rust />}
     </>
   ) : (
