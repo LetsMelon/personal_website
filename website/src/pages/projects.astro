@@ -28,7 +28,12 @@ const projects: IProject[] = [
   },
   {
     name: "adanui",
-    languages: [Technology.JavaScript, Technology.Docker],
+    languages: [
+      Technology.JavaScript,
+      Technology.Docker,
+      Technology.Redis,
+      Technology.PostgreSQL,
+    ],
     description:
       "Adanui Backend is a comprehensive microservices architecture built with Docker and Docker Compose, designed to anonymize DICOM files. It orchestrates several services, including a reverse proxy, API, worker processes, frontend, Redis, MongoDB, and Minio for object storage. The system manages service lifecycles with Makefile commands, supporting both production and development environments. Key features include an API for handling requests, a worker for DICOM file anonymization, and integration with Redis and MongoDB for data management. This project was my high school graduation project and a team effort in collaboration with AGFA. I was solely responsible for developing the backend infrastructure, while my colleagues focused on the frontend. The backend emphasizes scalability and maintainability, providing a solid foundation for robust web applications focused on medical data privacy.",
     descriptionLink: [

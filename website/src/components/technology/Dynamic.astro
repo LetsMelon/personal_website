@@ -3,7 +3,9 @@ import Docker from "./Docker.astro";
 import Groovy from "./Groovy.astro";
 import Java from "./Java.astro";
 import JavaScript from "./JavaScript.astro";
+import PostgreSQL from "./PostgreSQL.astro";
 import Python from "./Python.astro";
+import Redis from "./Redis.astro";
 import Rust from "./Rust.astro";
 
 export enum Technology {
@@ -11,7 +13,9 @@ export enum Technology {
   Groovy,
   Java,
   JavaScript,
+  PostgreSQL,
   Python,
+  Redis,
   Rust,
 }
 
@@ -33,7 +37,9 @@ function isTechnology(value: any): value is Technology {
       {technology === Technology.Groovy && <Groovy />}
       {technology === Technology.Java && <Java />}
       {technology === Technology.JavaScript && <JavaScript />}
+      {technology === Technology.PostgreSQL && <PostgreSQL />}
       {technology === Technology.Python && <Python />}
+      {technology === Technology.Redis && <Redis />}
       {technology === Technology.Rust && <Rust />}
     </>
   ) : (
