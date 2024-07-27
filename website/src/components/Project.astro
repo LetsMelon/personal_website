@@ -1,6 +1,6 @@
 ---
 import ExternalLink from "./ExternalLink.astro";
-import type { Technology } from "./technology/Dynamic.astro";
+import { Technology } from "./technology/Dynamic.astro";
 import Dynamic from "./technology/Dynamic.astro";
 
 export interface IProject {
@@ -34,14 +34,20 @@ descriptionLink?.forEach((item) => {
     <b>{name}</b>
     <br />
     {languages.length <= 1 ? "Technology" : "Technologies"} used: {
-      languages.map((item, index) => (
-        <>
-          <Dynamic technology={item} />
-          {index < languages.length - 1 && (
-            <span class="technology-seperator">,</span>
-          )}
-        </>
-      ))
+      languages
+        .sort((a, b) => {
+          const nameA = Technology[a];
+          const nameB = Technology[b];
+          return nameA.localeCompare(nameB);
+        })
+        .map((item, index) => (
+          <>
+            <Dynamic technology={item} />
+            {index < languages.length - 1 && (
+              <span class="technology-seperator">,</span>
+            )}
+          </>
+        ))
     }
     <br />
     Link:
