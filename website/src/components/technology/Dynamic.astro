@@ -28,14 +28,14 @@ function isTechnology(value: any): value is Technology {
 
 {
   isTechnology(technology) ? (
-    <Fragment>
+    <>
       {technology === Technology.Docker && <Docker />}
       {technology === Technology.Groovy && <Groovy />}
       {technology === Technology.Java && <Java />}
       {technology === Technology.JavaScript && <JavaScript />}
       {technology === Technology.Python && <Python />}
       {technology === Technology.Rust && <Rust />}
-    </Fragment>
+    </>
   ) : (
     <span>{technology}</span>
   )
