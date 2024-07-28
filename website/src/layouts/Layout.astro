@@ -23,12 +23,14 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <div class="inner-body">
-      <Navbar />
+    <div class="container">
+      <div class="inner-body">
+        <Navbar />
 
-      <slot />
+        <slot />
 
-      <Footer />
+        <Footer />
+      </div>
     </div>
   </body>
 </html>
@@ -54,12 +56,30 @@ const { title } = Astro.props;
     color: var(--text);
   }
 
-  .inner-body {
-    padding-left: 1.25rem;
+  .container {
+    display: flex;
+  }
 
+  @media (min-width: 100em) {
+    .container {
+      justify-content: center;
+
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .inner-body {
     width: 100%;
-    min-width: 20rem;
-    max-width: 65rem;
+    min-width: 20em;
+    max-width: 65em;
+  }
+
+  @media (max-width: 100em) {
+    .container {
+      padding-left: 1.25em;
+      padding-right: 1.25em;
+    }
   }
 
   a {
