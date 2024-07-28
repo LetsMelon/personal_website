@@ -2,10 +2,8 @@ version: '3.3'
 
 services:
   website:
-    container_name: melcher_io_website
     build:
       context: ./website
-      dockerfile: ./website/Dockerfile
     networks:
       - internal_network
     ports:
