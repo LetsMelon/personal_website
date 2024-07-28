@@ -54,6 +54,8 @@ const { title } = Astro.props;
     background-color: var(--background);
     font-family: "Space Mono";
     color: var(--text);
+
+    font-size: 1.25rem;
   }
 
   .container {
@@ -77,8 +79,10 @@ const { title } = Astro.props;
 
   @media (max-width: 100em) {
     .container {
-      padding-left: 1.25em;
-      padding-right: 1.25em;
+      --padding: 1.25em;
+
+      padding-left: var(--padding);
+      padding-right: var(--padding);
     }
   }
 
