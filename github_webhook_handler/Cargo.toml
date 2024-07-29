@@ -8,7 +8,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.86"
 axum = "0.7.5"
-bollard = { version = "0.16.0", features = ["buildkit"] }
+bollard = { version = "0.17.0", features = ["buildkit"] }
 bytes = "1.6.1"
 dotenv = "0.15.0"
 flate2 = "1.0.30"
