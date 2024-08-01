@@ -11,6 +11,6 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.86"
 chrono = "0.4.38"
-clap = { version = "4.5.11", features = ["derive"] }
+clap = { version = "4.5.13", features = ["derive"] }
 #! html-site-generator = { version = "0.0.1", path = "../html-site-generator" }
 html-site-generator = { git = "https://github.com/letsmelon/html-site-generator", rev = "6adbe8b7b8129fab220c68b84c089a16acff71ee" }
