@@ -9,7 +9,7 @@ edition = "2021"
 anyhow = "1.0.86"
 axum = "0.7.5"
 bollard = { version = "0.16.0", features = ["buildkit"] }
-bytes = "1.6.1"
+bytes = "1.8.0"
 dotenv = "0.15.0"
 flate2 = "1.0.30"
 futures-util = "0.3.30"
