@@ -1,6 +1,21 @@
 ---
 import ExternalLink from "./ExternalLink.astro";
 import Separator from "./Separator.astro";
+
+const obfuscateEmail = (email: String) => {
+  const mappings = Object.freeze({
+    ".": "dot",
+    "@": "at",
+  });
+
+  const fct = (raw: String) => `(${raw})`;
+
+  Object.entries(mappings).forEach(([key, value]) => {
+    email = email.replaceAll(key, fct(value));
+  });
+
+  return email;
+};
 ---
 
 <footer>
@@ -13,10 +28,10 @@ import Separator from "./Separator.astro";
       I am open to new job opportunities and collaborations. If you have a
       project or a job opening that you think I would be a good fit for,
       especially in Rust programming, please feel free to reach out to me. You
-      can contact me via: <ExternalLink
-        link="mailto:domi.m@outlook.com"
-        name="email"
-      />, <ExternalLink link="https://github.com/LetsMelon" name="GitHub" /> or
+      can contact me via: <i>{obfuscateEmail("domi.m@outlook.com")}</i>, <ExternalLink
+        link="https://github.com/LetsMelon"
+        name="GitHub"
+      /> or
       <ExternalLink
         link="https://www.linkedin.com/in/domenic-melcher/"
         name="LinkedIn"
