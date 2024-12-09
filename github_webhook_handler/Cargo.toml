@@ -12,7 +12,7 @@ bollard = { version = "0.16.0", features = ["buildkit"] }
 bytes = "1.8.0"
 dotenv = "0.15.0"
 flate2 = "1.0.30"
-futures-util = "0.3.30"
+futures-util = "0.3.31"
 hex = "0.4.3"
 hmac = "0.12.1"
 serde = { version = "1.0.204", features = ["derive"] }
