@@ -101,16 +101,20 @@ const durationText = () => {
       const until = untilRaw!;
 
       const diffTime = Math.abs(until.valueOf() - startDate.valueOf());
+      const totalDiffMonths = diffTime / (1000 * 60 * 60 * 24 * 30) + 1;
 
-      const diffMonths = diffTime / (1000 * 60 * 60 * 24 * 30) + 1;
-      const diffYears = Math.floor(diffMonths / 12);
+      const diffYears = Math.floor(totalDiffMonths / 12);
+
+      const diffMonthsWithoutYears = totalDiffMonths - 12 * diffYears;
+      const diffMonthsLower = Math.floor(diffMonthsWithoutYears);
+      const diffMonthsAdd =
+        diffMonthsWithoutYears - diffMonthsLower > 0.034 ? 1 : 0; // TODO remove this magic number
+      const diffMonths = diffMonthsLower + diffMonthsAdd;
 
       if (diffYears == 0) {
         return formatMonths(diffMonths);
       } else {
-        const diffMonthsWithoutYears = diffMonths - 12 * diffYears;
-
-        return `${formatYears(diffYears)} years ${formatMonths(diffMonthsWithoutYears)}`;
+        return `${formatYears(diffYears)} years ${formatMonths(diffMonths)}`;
       }
     };
   }
