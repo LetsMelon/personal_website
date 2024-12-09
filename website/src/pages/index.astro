@@ -18,6 +18,7 @@ const workHistory = [
   },
   {
     name: "celix Solutions GmbH",
+    jobTitle: "Technical Consultant",
     link: "https://www.celix.at/",
     startDate: new Date(2024, 7),
     description:
@@ -52,6 +53,7 @@ const workHistory = [
           .map((item) => (
             <WorkItem
               name={item.name}
+              jobTitle={item.jobTitle}
               link={item.link}
               startDate={item.startDate}
               endDate={item.endDate}

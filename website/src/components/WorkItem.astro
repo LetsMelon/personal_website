@@ -3,13 +3,14 @@ import ExternalLink from "./ExternalLink.astro";
 
 interface Props {
   name: string;
+  jobTitle?: string | undefined;
   link: string;
   startDate: Date;
   endDate?: Date | undefined;
   description?: string | undefined;
 }
 
-const { name, link, startDate, endDate, description } = Astro.props;
+const { name, jobTitle, link, startDate, endDate, description } = Astro.props;
 
 const formatMonth = (date: Date) => {
   return date.toLocaleString("en-US", { month: "long" });
@@ -39,6 +40,7 @@ const durationText = () => {
   <li>
     <p>
       <ExternalLink name={name} link={link} />
+      {jobTitle && <>- {jobTitle}</>}
       <br />
       Duration:
       <span>
