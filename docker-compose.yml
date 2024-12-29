@@ -8,35 +8,36 @@ services:
       - internal_network
     ports:
       - 8080:80
-
-  webhook_handler:
-    build:
-      context: .
-      dockerfile: ./github_webhook_handler/Dockerfile
-    restart: always
-    ports:
-      - 3000:3000
-    networks:
-      - internal_network
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    env_file:
-      - ./webhook.env
-
-  reverse_proxy:
-    build:
-      context: .
-      dockerfile: ./config/Dockerfile.proxy
-    restart: always
-    ports:
       - 80:80
-      - 443:80
-      - 8085:80
-    networks:
-      - internal_network
-    depends_on:
-      - website
-      - webhook_handler
+
+  # webhook_handler:
+  #   build:
+  #     context: .
+  #     dockerfile: ./github_webhook_handler/Dockerfile
+  #   restart: always
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - internal_network
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   env_file:
+  #     - ./webhook.env
+
+  # reverse_proxy:
+  #   build:
+  #     context: .
+  #     dockerfile: ./config/Dockerfile.proxy
+  #   restart: always
+  #   ports:
+  #     - 80:80
+  #     - 443:80
+  #     - 8085:80
+  #   networks:
+  #     - internal_network
+  #   depends_on:
+  #     - website
+  #     - webhook_handler
 
 networks:
   internal_network:
