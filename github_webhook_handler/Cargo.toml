@@ -11,7 +11,7 @@ axum = "0.7.5"
 bollard = { version = "0.16.0", features = ["buildkit"] }
 bytes = "1.8.0"
 dotenv = "0.15.0"
-flate2 = "1.0.30"
+flate2 = "1.0.35"
 futures-util = "0.3.31"
 hex = "0.4.3"
 hmac = "0.12.1"
