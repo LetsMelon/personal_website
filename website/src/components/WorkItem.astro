@@ -39,8 +39,8 @@ const durationText = () => {
 >
   <li>
     <p>
+      {jobTitle && <>{jobTitle} -</>}
       <ExternalLink name={name} link={link} />
-      {jobTitle && <>- {jobTitle}</>}
       <br />
       Duration:
       <span>
